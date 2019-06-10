@@ -1,3 +1,15 @@
+### Set your global git name and email
+```bash
+    git config --global user.name "Your Name"
+    git config --global user.email "you@example.com"
+```
+
+### Set your git name and email for a single repository
+```bash
+    git config user.name "Your Name"
+    git config user.email "email@example.com"
+```
+
 ### Clone this repository
 ```bash
     cd ~
