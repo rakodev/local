@@ -4,10 +4,15 @@
     git clone https://github.com/rakodev/local.git
 ```
 
-### Add the following to your ~/.bash_profile or ~/.bashr
+### Add the following to your ~/.bash_profile
 ```bash
     source ~/local/docker.sh
     source ~/local/git.sh
+```
+
+### Enable your .bash_profile without restarting
+```bash
+    source ~/.bash_profile
 ```
 
 ### Setup an SSH key
@@ -18,11 +23,5 @@
 ### Copy your public keygen
 ```bash
     cat ~/.ssh/id_rsa.pub | pbcopy
-```
-
-### Create a ~/.gitexcludes file and paste in this:
-```bash
-    .DS_Store
-    .idea
 ```
 
