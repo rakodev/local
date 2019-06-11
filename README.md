@@ -20,6 +20,7 @@
 ```bash
     source ~/local/docker.sh
     source ~/local/git.sh
+    source ~/local/bash.sh
 ```
 
 ### Enable your .bash_profile without restarting

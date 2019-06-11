@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+alias dc='docker-compose'
+
 dc-rebuild() {
 	if [ -z "$1" ]; then
 		echo "Parameter container service name is missing";
