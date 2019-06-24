@@ -44,3 +44,11 @@ git-set-remote-url(){
 	fi
 	git remote set-url origin $1
 }
+
+git-remove-local-branch() {
+    if [ -z "$1" ]; then
+		echo "Parameter branch name is missing";
+		exit;
+	fi
+    git branch -D $1;
+}

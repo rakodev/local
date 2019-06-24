@@ -18,9 +18,14 @@
 
 ### Add the following to your ~/.bash_profile
 ```bash
-    source ~/local/docker.sh
-    source ~/local/git.sh
-    source ~/local/bash.sh
+    # Docker
+    source ~/local/aliases/docker.sh
+    # Git
+    source ~/local/aliases/git.sh
+    # Bash
+    source ~/local/aliases/bash.sh
+    # Symfony Framework (PHP)
+    source ~/local/aliases/symfony.sh
 ```
 
 ### Enable your .bash_profile without restarting
