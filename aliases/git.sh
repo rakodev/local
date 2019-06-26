@@ -24,6 +24,9 @@ git-rebase-interactive() {
 		exit;
 	fi
 	git rebase --interactive $1;
+	echo ""
+	echo "Now run git-force-push"
+	echo ""
 }
 
 # git force push
