@@ -26,6 +26,8 @@
     source ~/local/aliases/bash.sh
     # Symfony Framework (PHP)
     source ~/local/aliases/symfony.sh
+    # Network
+    source ~/local/aliases/network.sh
 ```
 
 ### Enable your .bash_profile without restarting

@@ -21,3 +21,7 @@ sf-db-empty() {
 sf-cache-clear() {
     bin-console cache:clear
 }
+
+sf-make-controller() {
+    bin-console make:controller
+}
