@@ -18,6 +18,7 @@ git-reset-hard() {
 }
 
 # git rebase interactive <last commit hash on the parent branch>
+# pick one and squash (s) the others
 git-rebase-interactive() {
 	if [ -z "$1" ]; then
 		echo "Parameter last commit hash is missing!";
@@ -54,4 +55,13 @@ git-remove-local-branch() {
 		exit;
 	fi
     git branch -D $1;
+}
+
+git-copy-ssh-key() {
+    if [[ -e ~/.ssh/id_rsa.pub ]]; then
+        pbcopy < ~/.ssh/id_rsa.pub
+    else
+        echo "You need first to generate a ssh key with this command:";
+        echo "ssh-keygen -t rsa -b 4096 -C ""your_email@example.com"""
+    fi
 }

@@ -14,6 +14,19 @@ sf-migration-execute() {
     bin-console doctrine:migrations:migrate
 }
 
+sf-migration-execute-down() {
+    if [ -z "$1" ]; then
+		echo "Parameter migration number is missing";
+		exit 1;
+	fi
+    bin-console doctrine:migrations:execute --down $1
+}
+
+sf-migration-generate-execute(){
+    sf-migration-generate;
+    sf-migration-execute;
+}
+
 sf-db-empty() {
     bin-console doctrine:schema:drop --full-database --force
 }
