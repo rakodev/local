@@ -7,12 +7,12 @@ dc-rebuild() {
 		echo "Parameter container service name is missing";
 		exit;
 	fi
-	docker-compose build --no-cache $1;
+	docker-compose build --no-cache --pull $1;
 	docker-compose up -d $1;
 	#docker-compose up -d --force-recreate --build $1;
 }
 
-dc-remove-by-refix() {
+dc-remove-by-prefix() {
     if [ -z "$1" ]; then
 		echo "Parameter grep by is missing";
 		exit;

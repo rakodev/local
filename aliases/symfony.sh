@@ -17,7 +17,7 @@ sf-migration-execute() {
 sf-migration-execute-down() {
     if [ -z "$1" ]; then
 		echo "Parameter migration number is missing";
-		exit 1;
+		exit 0;
 	fi
     bin-console doctrine:migrations:execute --down $1
 }
@@ -37,4 +37,16 @@ sf-cache-clear() {
 
 sf-make-controller() {
     bin-console make:controller
+}
+
+sf-make-voter() {
+    bin-console make:voter
+}
+
+sf-phpunit() {
+    if [ -z "$1" ]; then
+		docker-compose exec php-fpm-test bin/phpunit
+	else
+	    docker-compose exec php-fpm-test bin/phpunit --filter=$1
+	fi
 }
