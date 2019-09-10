@@ -25,6 +25,13 @@ dc-up (){
     dc up -d;
 }
 
+dc-restart(){
+    if [ -z "$1" ]; then
+		echo "Parameter service name is missing";
+		exit;
+	fi
+    dc restart $1
+}
 docker-clear() {
 #    docker rm $(docker ps -a -f status=exited -f status=created -q)
     docker system prune -a;

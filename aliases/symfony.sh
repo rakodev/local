@@ -12,6 +12,8 @@ sf-migration-generate() {
 
 sf-migration-execute() {
     bin-console doctrine:migrations:migrate
+    # execute also on env test
+    bin-console doctrine:schema:update --force --env=test
 }
 
 sf-migration-execute-down() {
