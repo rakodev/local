@@ -5,7 +5,7 @@
 dig-trace() {
     if [ -z "$1" ]; then
 		echo "Parameter domain is missing";
-		exit;
+		return 0;
 	fi
     dig $1 +trace
 }

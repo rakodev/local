@@ -5,7 +5,7 @@ alias dc='docker-compose'
 dc-rebuild() {
 	if [ -z "$1" ]; then
 		echo "Parameter container service name is missing";
-		exit;
+		return 0;
 	fi
 	docker-compose build --no-cache --pull $1;
 	docker-compose up -d $1;
@@ -15,7 +15,7 @@ dc-rebuild() {
 dc-remove-by-prefix() {
     if [ -z "$1" ]; then
 		echo "Parameter grep by is missing";
-		exit;
+		return 0;
 	fi
     docker stop $(docker ps -a | grep $1 | awk '{print $1}');
     docker rm $(docker ps -a | grep $1 | awk '{print $1}')
@@ -28,7 +28,7 @@ dc-up (){
 dc-restart(){
     if [ -z "$1" ]; then
 		echo "Parameter service name is missing";
-		exit;
+		return 0;
 	fi
     dc restart $1
 }

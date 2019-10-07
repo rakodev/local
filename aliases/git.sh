@@ -4,7 +4,7 @@
 git-fetch-checkout() {
 	if [ -z "$1" ]; then
 		echo "Branch name is missing!";
-		exit;
+		return 0;
 	fi
 	git fetch origin $1;
 	git checkout --track origin/$1 2>/dev/null || git checkout $1;
@@ -22,7 +22,7 @@ git-reset-hard() {
 git-rebase-interactive() {
 	if [ -z "$1" ]; then
 		echo "Parameter last commit hash is missing!";
-		exit;
+		return 0;
 	fi
 	git rebase --interactive $1;
 	echo ""
@@ -44,7 +44,7 @@ git-show-remote-url(){
 git-set-remote-url(){
 	if [ -z "$1" ]; then
 		echo "Parameter remote URL is missing";
-		exit;
+		return 0;
 	fi
 	git remote set-url origin $1
 }
@@ -52,7 +52,7 @@ git-set-remote-url(){
 git-remove-local-branch() {
     if [ -z "$1" ]; then
 		echo "Parameter branch name is missing";
-		exit;
+		return 0;
 	fi
     git branch -D $1;
 }
@@ -64,4 +64,18 @@ git-copy-ssh-key() {
         echo "You need first to generate a ssh key with this command:";
         echo "ssh-keygen -t rsa -b 4096 -C ""your_email@example.com"""
     fi
+}
+
+# git add & commit & push
+# git-acp "commit message" branchName
+git-acp() {
+    # assign default branch master if branchName is empty
+    branchName=${2:-master};
+    if [ -z "$1" ]; then
+		echo "Commit message is missing";
+		return 0;
+	fi
+	git add .;
+	git commit -m "$1";
+	git push -u origin $branchName;
 }
