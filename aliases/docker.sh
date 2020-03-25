@@ -37,3 +37,7 @@ docker-clear() {
     docker system prune -a;
     docker images purge;
 }
+
+docker-bash() {
+	docker exec -it gez-php-fpm /bin/bash
+}

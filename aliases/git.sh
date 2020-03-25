@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+# new repo
+#git init
+#git add .
+#git commit -m "first commit"
+#git remote add origin https://github.com/rakodev/react-native-meals.git
+#git push -u origin master
+
+# push an existing project
+#git remote add origin https://github.com/rakodev/react-native-meals.git
+#git push -u origin master
+
 # git fetch checkout <branch>
 git-fetch-checkout() {
 	if [ -z "$1" ]; then
@@ -78,4 +89,18 @@ git-acp() {
 	git add .;
 	git commit -m "$1";
 	git push -u origin $branchName;
+}
+
+# git-config-global "Name LastName" "email@example.com"
+git-config-global() {
+    if [ -z "$1" ]; then
+		echo "User name is missing";
+		return 0;
+	fi
+    if [ -z "$2" ]; then
+		echo "User email is missing";
+		return 0;
+	fi
+    git config --global user.name "$1"
+    git config --global user.email "$2"
 }

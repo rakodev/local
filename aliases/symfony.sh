@@ -70,3 +70,7 @@ sf-phpunit() {
 	    docker-compose exec php-fpm-test bin/phpunit --filter=$1
 	fi
 }
+
+sf-update() {
+    docker-compose exec php-fpm composer update
+}
