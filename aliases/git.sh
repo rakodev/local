@@ -77,7 +77,7 @@ git-copy-ssh-key() {
     fi
 }
 
-# git add & commit & push
+# git add, commit & push
 # git-acp "commit message" branchName
 git-acp() {
     # assign default branch master if branchName is empty
