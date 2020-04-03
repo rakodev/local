@@ -104,3 +104,25 @@ git-config-global() {
     git config --global user.name "$1"
     git config --global user.email "$2"
 }
+
+git-switch-branch() {
+	git checkout $1;
+}
+
+git-new-branch() {
+    if [ -z "$1" ]; then
+		echo "Commit message is missing";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Branch name is missing";
+		return 0;
+	fi
+	git checkout -b $2;
+	git add .;
+	git commit -m "$1";
+}
+
+git-reset-current-changes() {
+	git clean --force && git reset --hard
+}
