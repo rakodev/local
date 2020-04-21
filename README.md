@@ -1,3 +1,5 @@
+## This repo is a way to create alias for you command but also a reminder for some commands you don't use often
+
 ### Set your global git name and email
 
 ```bash
