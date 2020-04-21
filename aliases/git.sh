@@ -86,6 +86,8 @@ git-acp() {
 		echo "Commit message is missing";
 		return 0;
 	fi
+
+	git checkout -b $branchName;
 	git add .;
 	git commit -m "$1";
 	git push -u origin $branchName;
