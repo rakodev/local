@@ -21,8 +21,14 @@ dc-remove-by-prefix() {
     docker rm $(docker ps -a | grep $1 | awk '{print $1}')
 }
 
+# start containers
 dc-up (){
     dc up -d;
+}
+
+# list containers
+dc-list() {
+	dc ps;
 }
 
 dc-restart(){
