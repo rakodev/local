@@ -41,6 +41,21 @@ git-rebase-interactive() {
 	echo ""
 }
 
+# Merge last N commits even if they have been pushed
+git-merge-last-n-commit() {
+	if [ -z "$1" ]; then
+		echo "Parameter branch name is missing";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Number of commit you want to merge is missing";
+		return 0;
+	fi
+	git rebase -i $1~$2 $1
+	echo "choose fixup for other commits than the first one"
+	git push -u origin +$1
+}
+
 # git force push
 git-force-push() {
 	git push origin HEAD -f;
@@ -75,6 +90,21 @@ git-copy-ssh-key() {
         echo "You need first to generate a ssh key with this command:";
         echo "ssh-keygen -t rsa -b 4096 -C ""your_email@example.com"""
     fi
+}
+
+# git add & commit
+# git-commit "commit message" branchName
+git-commit() {
+	# assign default branch master if branchName is empty
+    branchName=${2:-master};
+    if [ -z "$1" ]; then
+		echo "Commit message is missing";
+		return 0;
+	fi
+
+	git checkout -b $branchName;
+	git add .;
+	git commit -m "$1";
 }
 
 # git add, commit & push
