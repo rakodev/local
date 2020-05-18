@@ -107,6 +107,20 @@ git-commit() {
 	git commit -m "$1";
 }
 
+# Edit last commit message
+git-commit-edit-last-message {
+	if [ -z "$1" ]; then
+		echo "Commit message is missing";
+		return 0;
+	fi
+	git commit --amend -m "$1"
+}
+
+# Add something to the last commit without writing message again
+git-add-last-commit {
+	git add . && git commit --amend --no-edit
+}
+
 # git add, commit & push
 # git-acp "commit message" branchName
 git-acp() {
@@ -158,3 +172,14 @@ git-new-branch() {
 git-reset-current-changes() {
 	git clean --force && git reset --hard
 }
+
+
+# Retrieve all commits by message
+git-log-search-in-message {
+	if [ -z "$1" ]; then
+		echo "Search string is missing";
+		return 0;
+	fi
+	git log --all --grep='$1'
+}
+
