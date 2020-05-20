@@ -108,17 +108,17 @@ git-commit() {
 }
 
 # Edit last commit message
-git-commit-edit-last-message {
+git-edit-last-commit-message() {
 	if [ -z "$1" ]; then
 		echo "Commit message is missing";
 		return 0;
 	fi
-	git commit --amend -m "$1"
+	git commit --amend -m "$1";
 }
 
 # Add something to the last commit without writing message again
-git-add-last-commit {
-	git add . && git commit --amend --no-edit
+git-add-last-commit() {
+	git add . && git commit --amend --no-edit;
 }
 
 # git add, commit & push
@@ -147,8 +147,8 @@ git-config-global() {
 		echo "User email is missing";
 		return 0;
 	fi
-    git config --global user.name "$1"
-    git config --global user.email "$2"
+    git config --global user.name "$1";
+    git config --global user.email "$2";
 }
 
 git-switch-branch() {
@@ -170,16 +170,16 @@ git-new-branch() {
 }
 
 git-reset-current-changes() {
-	git clean --force && git reset --hard
+	git clean --force && git reset --hard;
 }
 
 
 # Retrieve all commits by message
-git-log-search-in-message {
+git-log-search-in-message() {
 	if [ -z "$1" ]; then
 		echo "Search string is missing";
 		return 0;
 	fi
-	git log --all --grep='$1'
+	git log --all --grep='$1';
 }
 
