@@ -47,3 +47,16 @@ docker-clear() {
 docker-bash() {
 	docker exec -it gez-php-fpm /bin/bash
 }
+
+docker-list-all-local-images () {
+	docker image ls -a
+}
+
+docker-remove-unused-image() {
+	docker image prune
+}
+
+#stop all running containers
+docker-stop-all() {
+	docker stop $(docker ps -aq)
+}

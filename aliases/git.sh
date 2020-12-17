@@ -67,6 +67,9 @@ git-show-remote-url(){
 	#git remote show origin;
 }
 
+# After this command if the repo is empty you can do these commands:
+# git push -u origin --all
+# git push -u origin --tags
 git-set-remote-url(){
 	if [ -z "$1" ]; then
 		echo "Parameter remote URL is missing";
