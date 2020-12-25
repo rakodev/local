@@ -186,3 +186,32 @@ git-log-search-in-message() {
 	git log --all --grep='$1';
 }
 
+git-checkout-remote-branch() {
+	if [ -z "$1" ]; then
+		echo "branch name is missing";
+		return 0;
+	fi
+	git fetch;
+	git checkout -t origin/$1;
+}
+
+git-create-new-local-branch() {
+	if [ -z "$1" ]; then
+		echo "branch name is missing";
+		return 0;
+	fi
+	git checkout -b $1;
+}
+
+git-switch-to-local-branch() {
+	if [ -z "$1" ]; then
+		echo "branch name is missing";
+		return 0;
+	fi
+	git checkout $1;
+}
+
+# revert all local non commited changes
+git-reset-hard () {
+	git reset --hard;
+}
