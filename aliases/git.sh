@@ -215,3 +215,7 @@ git-switch-to-local-branch() {
 git-reset-hard () {
 	git reset --hard;
 }
+
+git-list-remote-branch-not-merged() {
+	git branch -r --sort=-committerdate --no-merged
+}
