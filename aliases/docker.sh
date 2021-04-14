@@ -60,3 +60,11 @@ docker-remove-unused-image() {
 docker-stop-all() {
 	docker stop $(docker ps -aq)
 }
+
+docker-clean-all() {
+	docker system prune
+	docker container stop $(docker container ls -aq)
+	docker container rm $(docker container ls -aq)
+	docker rmi $(docker images -aq)
+	docker volume prune
+}

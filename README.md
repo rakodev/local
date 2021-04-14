@@ -36,12 +36,24 @@
     source ~/local/aliases/network.sh
     # Kubernetes
     source ~/local/aliases/kubernetes.sh
+    # AWS
+    source ~/local/aliases/aws.sh
+    # Terraform
+    source ~/local/aliases/terraform.sh  
 ```
 
 ### Enable your .bash_profile without restarting
 
 ```bash
     source ~/.bash_profile
+```
+
+OR
+
+### Enable your .zshrc without restarting
+
+```bash
+    source ~/.zshrc
 ```
 
 ### Setup an SSH key

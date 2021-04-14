@@ -22,6 +22,10 @@ git-fetch-checkout() {
 	git pull;
 }
 
+git-fetch-all() {
+	git fetch --all;
+}
+
 # git reset hard
 git-reset-hard() {
 	git reset --hard origin/HEAD;
@@ -29,6 +33,7 @@ git-reset-hard() {
 }
 
 # git rebase interactive <last commit hash on the parent branch>
+# do a git log to see the last commits
 # pick one and squash (s) the others
 git-rebase-interactive() {
 	if [ -z "$1" ]; then
@@ -126,7 +131,7 @@ git-add-last-commit() {
 
 # git add, commit & push
 # git-acp "commit message" branchName
-git-acp() {
+git-add-commit-push() {
     # assign default branch master if branchName is empty
     branchName=${2:-master};
     if [ -z "$1" ]; then
@@ -152,10 +157,6 @@ git-config-global() {
 	fi
     git config --global user.name "$1";
     git config --global user.email "$2";
-}
-
-git-switch-branch() {
-	git checkout $1;
 }
 
 git-new-branch() {
@@ -211,11 +212,22 @@ git-switch-to-local-branch() {
 	git checkout $1;
 }
 
-# revert all local non commited changes
-git-reset-hard () {
-	git reset --hard;
-}
-
 git-list-remote-branch-not-merged() {
 	git branch -r --sort=-committerdate --no-merged
+}
+
+git-list-remote-branch() {
+	git for-each-ref --sort=-committerdate refs/remotes --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:magenta)%(authorname)%(color:reset)|%(color:blue)%(subject)' --color=always | column -ts'|'
+}
+
+git-list-local-branch () {
+	git for-each-ref --sort=-committerdate refs/heads --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:magenta)%(authorname)%(color:reset)|%(color:blue)%(subject)' --color=always | column -ts'|'
+}
+
+git-branch-remove() {
+	if [ -z "$1" ]; then
+		echo "branch name is missing";
+		return 0;
+	fi
+	git branch -D $1;
 }
