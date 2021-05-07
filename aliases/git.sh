@@ -11,6 +11,9 @@
 #git remote add origin https://github.com/rakodev/react-native-meals.git
 #git push -u origin master
 
+# https://stackoverflow.com/questions/14491727/git-add-patch-to-include-new-files?answertab=active#tab-top
+alias git-add-patch='git add --intent-to-add . && git add --patch'
+
 # git fetch checkout <branch>
 git-fetch-checkout() {
 	if [ -z "$1" ]; then
@@ -28,8 +31,12 @@ git-fetch-all() {
 
 # git reset hard
 git-reset-hard() {
-	git reset --hard origin/HEAD;
-	git pull;
+	if [ -z "$1" ]; then
+		echo "Parameter branch name is missing!";
+		return 0;
+	fi
+	git fetch origin
+	git reset --hard origin/$1;
 }
 
 # git rebase interactive <last commit hash on the parent branch>
@@ -129,20 +136,25 @@ git-add-last-commit() {
 	git add . && git commit --amend --no-edit;
 }
 
-# git add, commit & push
+# git create branch, add, commit & push
 # git-acp "commit message" branchName
-git-add-commit-push() {
-    # assign default branch master if branchName is empty
-    branchName=${2:-master};
+git-create-add-commit-push() {
+    # if not branchName is given, then do it with HEAD
+    branchName=${2:-HEAD};
     if [ -z "$1" ]; then
 		echo "Commit message is missing";
 		return 0;
 	fi
-
-	git checkout -b $branchName;
+	if [ -n $2 ]; then
+		git checkout -b $branchName;
+	fi	
 	git add .;
 	git commit -m "$1";
-	git push -u origin $branchName;
+	if [ -n $2 ]; then
+		git push -u origin $branchName;
+	else
+		git push -u origin HEAD
+	fi	
 }
 
 # git-config-global "Name LastName" "email@example.com"
