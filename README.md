@@ -21,7 +21,7 @@
     git clone https://github.com/rakodev/local.git
 ```
 
-### Add the following to your ~/.bash_profile
+### Add the following to your ~/.bash_profile or ~/.zshrc 
 
 ```bash
     # Docker
