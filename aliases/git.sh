@@ -14,6 +14,28 @@
 # https://stackoverflow.com/questions/14491727/git-add-patch-to-include-new-files?answertab=active#tab-top
 alias git-add-patch='git add --intent-to-add . && git add --patch'
 
+# example: git-stash
+# example: git-stash push -m "WIP: new lambda function"
+git-stash-push() {
+	if [ -n $1 ]; then
+		git stash push -m "$1"
+	else
+		git stash
+	fi
+}
+
+alias git-stash-list='git stash list'
+
+# use git list and then use
+# git-unstash 2 // 2 is the number in the list
+git-stash-pop(){
+	if [ $1 ]; then
+		git stash pop stash@{$1}
+	else
+		git stash pop
+	fi
+}
+
 # git fetch checkout <branch>
 git-fetch-checkout() {
 	if [ -z "$1" ]; then
