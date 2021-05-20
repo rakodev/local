@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 
 alias dc='docker-compose'
+# list all containers
+alias docker-ps='docker ps -a'
+# stop a container, it needs a container ID as parameter (coming from docker ps)
+alias docker-stop='docker stop'
+# remove a container, it needs a container ID as parameter (coming from docker ps)
+alias docker-rm='docker rm'
+# stop and remove a container, it needs a container ID as parameter (coming from docker ps)
+alias docker-rmf='docker rm -f'
+# Scan your container against security vulnerabilities, it needs an image-name as parameter (coming from docker ps)
+alias docker-scan='docker scan'
 
 dc-rebuild() {
 	if [ -z "$1" ]; then

@@ -13,6 +13,10 @@
 
 # https://stackoverflow.com/questions/14491727/git-add-patch-to-include-new-files?answertab=active#tab-top
 alias git-add-patch='git add --intent-to-add . && git add --patch'
+# https://stackoverflow.com/questions/1274057/how-to-make-git-forget-about-a-file-that-was-tracked-but-is-now-in-gitignore
+# untracked files will be done after next commit
+alias git-untrack-file='git rm --cached'
+alias git-untrack-folder='git rm -r --cached'
 
 # example: git-stash
 # example: git-stash push -m "WIP: new lambda function"
@@ -264,4 +268,20 @@ git-branch-remove() {
 		return 0;
 	fi
 	git branch -D $1;
+}
+
+git-merge-with-remote-branch() {
+	if [ -z "$1" ]; then
+		echo "branch name is missing";
+		return 0;
+	fi
+	git merge origin/$1;
+}
+
+git-merge-with-local-branch() {
+	if [ -z "$1" ]; then
+		echo "branch name is missing";
+		return 0;
+	fi
+	git merge $1;
 }

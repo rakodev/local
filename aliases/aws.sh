@@ -17,3 +17,23 @@ aws-ssh-ec2() {
 	fi
     ssh -i $1 ec2-user@$2
 }
+
+aws-create-s3() {
+	if [ -z "$1" ]; then
+		echo "Bucket name is missing!";
+		return 0;
+	fi
+	aws s3 mb s3://$1
+}
+
+aws-copy-to-s3(){
+	if [ -z "$1" ]; then
+		echo "File path is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Bucket name is missing!";
+		return 0;
+	fi
+	aws s3 cp $1 s3://$2
+}
