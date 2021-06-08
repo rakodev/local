@@ -1,16 +1,27 @@
 #!/usr/bin/env bash
 
+# create a docker network, give the network name at the end of the command
+alias d-create-network='docker network create -d bridge'
+
 alias dc='docker-compose'
 # list all containers
-alias docker-ps='docker ps -a'
+alias d-ps='docker ps -a'
 # stop a container, it needs a container ID as parameter (coming from docker ps)
-alias docker-stop='docker stop'
+alias d-stop='docker stop'
 # remove a container, it needs a container ID as parameter (coming from docker ps)
-alias docker-rm='docker rm'
+alias d-rm='docker rm'
 # stop and remove a container, it needs a container ID as parameter (coming from docker ps)
-alias docker-rmf='docker rm -f'
+alias d-rmf='docker rm -f'
 # Scan your container against security vulnerabilities, it needs an image-name as parameter (coming from docker ps)
-alias docker-scan='docker scan'
+alias d-scan='docker scan'
+
+d-remove-by-image-name() {
+	if [ -z "$1" ]; then
+		echo "Parameter image name is missing";
+		return 0;
+	fi
+	docker rm $(docker stop $(docker ps -a -q --filter ancestor=$1 --format="{{.ID}}"))
+}
 
 dc-rebuild() {
 	if [ -z "$1" ]; then

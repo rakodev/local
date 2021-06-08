@@ -18,10 +18,25 @@ alias git-add-patch='git add --intent-to-add . && git add --patch'
 alias git-untrack-file='git rm --cached'
 alias git-untrack-folder='git rm -r --cached'
 
+# use it like this git-edit-last-pushed-commit 5054777864e4345d115f80025f913a403381d6c8 "my commit message I want"
+git-edit-last-pushed-commit() {
+	if [ -z "$1" ]; then
+		echo "Last good commit SHA1 is missing!";
+		return 0;
+	fi
+	if [ -z "$1" ]; then
+		echo "Commit message is missing!";
+		return 0;
+	fi
+	git reset $1
+	git commit -am "$2"
+	git push -f
+}
+
 # example: git-stash
 # example: git-stash push -m "WIP: new lambda function"
 git-stash-push() {
-	if [ -n $1 ]; then
+	if [ $1 ]; then
 		git stash push -m "$1"
 	else
 		git stash
@@ -89,8 +104,8 @@ git-merge-last-n-commit() {
 		echo "Number of commit you want to merge is missing";
 		return 0;
 	fi
+	read \?"Choose fixup for other commits than the first one [press enter to continue]"
 	git rebase -i $1~$2 $1
-	echo "choose fixup for other commits than the first one"
 	git push -u origin +$1
 }
 
@@ -184,7 +199,7 @@ git-create-add-commit-push() {
 }
 
 # git-config-global "Name LastName" "email@example.com"
-git-config-global() {
+git-config-set-global() {
     if [ -z "$1" ]; then
 		echo "User name is missing";
 		return 0;
@@ -195,6 +210,19 @@ git-config-global() {
 	fi
     git config --global user.name "$1";
     git config --global user.email "$2";
+}
+
+git-config-set-local() {
+    if [ -z "$1" ]; then
+		echo "User name is missing";
+		return 0;
+	fi
+    if [ -z "$2" ]; then
+		echo "User email is missing";
+		return 0;
+	fi
+    git config user.name "$1";
+    git config user.email "$2";
 }
 
 git-new-branch() {
@@ -284,4 +312,9 @@ git-merge-with-local-branch() {
 		return 0;
 	fi
 	git merge $1;
+}
+
+git-config-list() {
+	git config user.name
+	git config user.email
 }
