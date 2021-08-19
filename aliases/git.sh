@@ -17,6 +17,7 @@ alias git-add-patch='git add --intent-to-add . && git add --patch'
 # untracked files will be done after next commit
 alias git-untrack-file='git rm --cached'
 alias git-untrack-folder='git rm -r --cached'
+alias git-file-history='git log -p' # <file path>
 
 # use it like this git-edit-last-pushed-commit 5054777864e4345d115f80025f913a403381d6c8 "my commit message I want"
 git-edit-last-pushed-commit() {
@@ -24,13 +25,28 @@ git-edit-last-pushed-commit() {
 		echo "Last good commit SHA1 is missing!";
 		return 0;
 	fi
-	if [ -z "$1" ]; then
+	if [ -z "$2" ]; then
 		echo "Commit message is missing!";
 		return 0;
 	fi
 	git reset $1
 	git commit -am "$2"
 	git push -f
+}
+
+# $1 is the sha1 of the commit you want to come back
+# $2 is the branch name you want to push to undo unwanted commit
+git-undo-to-last-good-commit() {
+	if [ -z "$1" ]; then
+		echo "Last good commit SHA1 is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Branch name is missing!";
+		return 0;
+	fi
+	git reset $1
+	git push -f origin $2
 }
 
 # example: git-stash
@@ -46,7 +62,7 @@ git-stash-push() {
 alias git-stash-list='git stash list'
 
 # use git list and then use
-# git-unstash 2 // 2 is the number in the list
+# git-stash-pop 2 // 2 is the number in the list
 git-stash-pop(){
 	if [ $1 ]; then
 		git stash pop stash@{$1}
@@ -105,8 +121,9 @@ git-merge-last-n-commit() {
 		return 0;
 	fi
 	read \?"Choose fixup for other commits than the first one [press enter to continue]"
-	git rebase -i $1~$2 $1
-	git push -u origin +$1
+	if git rebase -i $1~$2 $1; then
+		git push -u origin +$1
+	fi
 }
 
 # git force push
