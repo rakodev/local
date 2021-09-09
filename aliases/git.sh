@@ -18,6 +18,9 @@ alias git-add-patch='git add --intent-to-add . && git add --patch'
 alias git-untrack-file='git rm --cached'
 alias git-untrack-folder='git rm -r --cached'
 alias git-file-history='git log -p' # <file path>
+alias git-log='git log --graph --oneline --decorate'
+alias git-switch-to-previous-branch='git checkout -'
+alias git-commit='git commit -m' # "commit description"
 
 # use it like this git-edit-last-pushed-commit 5054777864e4345d115f80025f913a403381d6c8 "my commit message I want"
 git-edit-last-pushed-commit() {
@@ -111,6 +114,7 @@ git-rebase-interactive() {
 }
 
 # Merge last N commits even if they have been pushed
+# git-merge-last-n-commit develop 4
 git-merge-last-n-commit() {
 	if [ -z "$1" ]; then
 		echo "Parameter branch name is missing";
@@ -167,7 +171,7 @@ git-copy-ssh-key() {
 
 # git add & commit
 # git-commit "commit message" branchName
-git-commit() {
+git-commit-and-create-new-branch() {
 	# assign default branch master if branchName is empty
     branchName=${2:-master};
     if [ -z "$1" ]; then
