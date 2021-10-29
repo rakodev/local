@@ -4,6 +4,8 @@
 alias aws-edit-credentials='vim ~/.aws/credentials'
 alias aws-edit-config='vim ~/.aws/config'
 alias aws-list-profile='aws configure list-profiles'
+# Validate a sam template file, you can also specify the template file location as a parameter
+alias sam-validate='sam validate'
 
 # aws-ssh-ec2 EC2Tutorial.pem 52.51.204.186
 aws-ssh-ec2() {
@@ -36,4 +38,13 @@ aws-copy-to-s3(){
 		return 0;
 	fi
 	aws s3 cp $1 s3://$2
+}
+
+# it shows you which status is currently your stack
+aws-cloudformation-stack-status(){
+	if [ -z "$1" ]; then
+		echo "StackName is missing!";
+		return 0;
+	fi
+	aws cloudformation describe-stacks --stack-name $1 --query "Stacks[0].StackStatus" --output text
 }
