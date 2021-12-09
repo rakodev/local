@@ -6,6 +6,7 @@ alias aws-edit-config='vim ~/.aws/config'
 alias aws-list-profile='aws configure list-profiles'
 # Validate a sam template file, you can also specify the template file location as a parameter
 alias sam-validate='sam validate'
+alias aws='docker run --rm -ti -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
 
 # aws-ssh-ec2 EC2Tutorial.pem 52.51.204.186
 aws-ssh-ec2() {

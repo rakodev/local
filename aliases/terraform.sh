@@ -2,6 +2,8 @@
 
 # Initialise a terraform project
 alias tf-init='terraform init'
+# Initialise without backend (no link to state file)
+alias tf-init-without-backend='terraform init -backend=false'
 # Validate your terraform syntax
 alias tf-validate='terraform validate'
 # Check terraform files
@@ -10,6 +12,12 @@ alias tf-plan='terraform plan'
 alias tf-apply='terraform apply'
 # Destroy the plan
 alias tf-destroy='terraform destroy'
+# Rewrite Terraform configuration files to a canonical format and style
+alias tf-fmt='terraform fmt'
+# List all workspaces
+alias tf-workspace-list='terraform workspace list'
+# switch to a different workspace, add name of the selected workspace you want to switch to
+alias tf-workspace-select='terraform workspace select'
 
 # list all workspaces
 alias tf-list='terraform workspace list'

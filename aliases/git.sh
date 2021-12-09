@@ -25,6 +25,8 @@ alias git-add-to-previous-commit='git commit --amend --no-edit'
 alias git-log-changes='git log -p'
 alias git-log-list='git log --pretty="%ar - %h - %an - %s"'
 alias git-commit-amend='git-add-patch & git commit --amend' # add new edit to the last unpushed commit
+alias git-diff-added-changes='git diff --cached'
+alias git-diff-with-head='git diff HEAD'
 
 # use it like this git-edit-last-pushed-commit 5054777864e4345d115f80025f913a403381d6c8 "my commit message I want"
 git-edit-last-pushed-commit() {
@@ -342,4 +344,26 @@ git-merge-with-local-branch() {
 git-config-list() {
 	git config user.name
 	git config user.email
+}
+
+# you can give remote branch name with prefix origin/ before the branchnames for both side
+# example: git-diff-branches origin/master..origin/develop
+git-diff-branches() {
+	if [ -z "$1" ] || [ -z "$2" ]; then
+		echo "branch names are missing";
+		return 0;
+	fi
+	git diff $1..$2
+}
+
+git-diff-file-on-different-branches() {
+	if [ -z "$1" ] || [ -z "$2" ]; then
+		echo "branch names are missing";
+		return 0;
+	fi
+	if [ -z "$3" ]; then
+		echo "file name is missing";
+		return 0;
+	fi
+	git diff $1..$2 -- $3
 }
