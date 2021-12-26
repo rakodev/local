@@ -27,6 +27,8 @@ alias git-log-list='git log --pretty="%ar - %h - %an - %s"'
 alias git-commit-amend='git-add-patch & git commit --amend' # add new edit to the last unpushed commit
 alias git-diff-added-changes='git diff --cached'
 alias git-diff-with-head='git diff HEAD'
+alias git-merge-with-origin-main='git fetch && git merge origin/main'
+alias git-merge-with-origin-master='git fetch && git merge origin/master'
 
 # use it like this git-edit-last-pushed-commit 5054777864e4345d115f80025f913a403381d6c8 "my commit message I want"
 git-edit-last-pushed-commit() {
@@ -115,13 +117,28 @@ git-rebase-interactive() {
 	fi
 	git rebase --interactive $1;
 	echo ""
-	echo "Now run git-force-push"
+	echo "Now run git-force-push if you did rebase commit that was already pushed"
 	echo ""
 }
 
 # Merge last N commits even if they have been pushed
 # git-merge-last-n-commit develop 4
 git-merge-last-n-commit() {
+	if [ -z "$1" ]; then
+		echo "Parameter branch name is missing";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Number of commit you want to merge is missing";
+		return 0;
+	fi
+	read \?"Choose fixup for other commits than the first one [press enter to continue]"
+	git rebase -i $1~$2 $1
+}
+
+# Merge last N commits even if they have been pushed
+# git-merge-last-n-commit develop 4
+git-merge-last-n-commit-and-push() {
 	if [ -z "$1" ]; then
 		echo "Parameter branch name is missing";
 		return 0;

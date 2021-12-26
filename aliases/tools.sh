@@ -34,3 +34,11 @@ tools-diff-any-line-missing-2() {
 	echo "Missing on the file $2"
 	comm -1 -3 <(sort $2) <(sort $1)
 }
+
+tools-copy-file-content-to-clipboard() {
+	if [ -z "$1" ]; then
+		echo "File path is missing!";
+		return 0;
+	fi
+	tr -d '\n' < $1 | pbcopy
+}

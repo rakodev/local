@@ -15,3 +15,4 @@ zle -N accept-line
 alias sc="source $HOME/.zshrc"
 alias ls='ls -la'
 alias c='clear'
+alias ll='ls -alFh'
