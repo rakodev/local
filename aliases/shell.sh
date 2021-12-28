@@ -16,3 +16,10 @@ alias sc="source $HOME/.zshrc"
 alias ls='ls -la'
 alias c='clear'
 alias ll='ls -alFh'
+
+alias .='cd ../'
+alias ..='cd ../../'
+alias ...='cd ../../../'
+
+export HISTCONTROL=ignoredups
+export HISTIGNORE="ls:ls -la:ll:cd:cd ..:..:...:....:.....:pwd:"

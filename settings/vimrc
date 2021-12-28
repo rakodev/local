@@ -1,0 +1,31 @@
+" Vim Shortcuts:
+" shift + a = go end of line and edit mode
+" shift + g = go end of file
+" gg = go top of file
+" 0 = go to start of the line
+" y = copy to clipboard from highlighted area
+" p = past from clipboard
+
+syntax on
+
+" list all color schemes with this command:
+" ls -l /usr/share/vim/vim*/colors/
+" desert, pablo, peachpuff
+colorscheme peachpuff
+
+" Line numbers
+:set number
+
+" CTRL-S save file
+nmap <C-s> :w<CR>
+
+" have the mouse enabled all the time:
+set mouse=a
+
+set autoindent
+
+" always show the status line
+set laststatus=2
+
+" show full file path in the status line
+set statusline+=%F

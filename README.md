@@ -24,12 +24,18 @@ git clone https://github.com/rakodev/local.git
 ### Add the following to your ~/.bash_profile or ~/.zshrc 
 
 ```bash
+for file in ~/local/aliases/*; do
+    source "$file"
+done
+```
+OR add only the one you need
+```bash
 # Docker
 source ~/local/aliases/docker.sh
 # Git
 source ~/local/aliases/git.sh
-# Bash
-source ~/local/aliases/bash.sh
+# Shell
+source ~/local/aliases/shell.sh
 # Symfony Framework (PHP)
 source ~/local/aliases/symfony.sh
 # Network
@@ -66,4 +72,9 @@ ssh-keygen
 
 ```bash
 cat ~/.ssh/id_rsa.pub | pbcopy
+```
+
+### Setup vim settings
+```bash
+echo "source ~/local/settings/vimrc" > ~/.vimrc
 ```

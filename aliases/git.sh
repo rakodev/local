@@ -11,8 +11,12 @@
 #git remote add origin https://github.com/rakodev/react-native-meals.git
 #git push -u origin master
 
+alias git-c='git checkout'
+alias git-cb='git checkout -b'
+alias git-co='git commit -m'
 # https://stackoverflow.com/questions/14491727/git-add-patch-to-include-new-files?answertab=active#tab-top
-alias git-add-patch='git add --intent-to-add . && git add --patch'
+alias git-ap='git add --intent-to-add . && git add --patch'
+#alias git-add-patch='git add --intent-to-add . && git add --patch'
 # https://stackoverflow.com/questions/1274057/how-to-make-git-forget-about-a-file-that-was-tracked-but-is-now-in-gitignore
 # untracked files will be done after next commit
 alias git-untrack-file='git rm --cached'
@@ -295,6 +299,14 @@ git-log-search-in-message() {
 		return 0;
 	fi
 	git log --all --grep='$1';
+}
+
+git-checkout-local-branch() {
+	if [ -z "$1" ]; then
+		echo "branch name is missing";
+		return 0;
+	fi
+	git checkout $1;
 }
 
 git-checkout-remote-branch() {
