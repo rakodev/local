@@ -14,23 +14,28 @@
 alias git-c='git checkout'
 alias git-p='git pull'
 alias git-cb='git checkout -b'
-alias git-ap='git add --intent-to-add . && git add --patch' # https://stackoverflow.com/questions/14491727/git-add-patch-to-include-new-files?answertab=active#tab-top
+alias git-ap='git add -A . && git add --patch' # https://stackoverflow.com/questions/14491727/git-add-patch-to-include-new-files?answertab=active#tab-top
 alias git-co='git commit -m'
 alias git-pu='git push -u origin HEAD'
+# Branch
+alias git-switch-to-previous-branch='git checkout -'
 # https://stackoverflow.com/questions/1274057/how-to-make-git-forget-about-a-file-that-was-tracked-but-is-now-in-gitignore
 # untracked files will be done after next commit
 alias git-untrack-file='git rm --cached'
 alias git-untrack-folder='git rm -r --cached'
-alias git-file-history='git log -p' # <file path>
-alias git-log='git log --graph --oneline --decorate'
-alias git-switch-to-previous-branch='git checkout -'
+# Commit
 alias git-commit='git commit -m' # "commit description"
+alias git-commit-amend='git commit --amend -m' # Add staged files to commit and edit last commit message
+alias git-commit-add-and-amend='git-add-patch & git commit --amend' # add new edit to the last unpushed commit
 alias git-add-to-previous-commit='git commit --amend --no-edit'
+# Log
+alias git-log='git log --graph --oneline --decorate'
 alias git-log-changes='git log -p'
 alias git-log-list='git log --pretty="%ar - %h - %an - %s"'
-alias git-commit-amend='git-add-patch & git commit --amend' # add new edit to the last unpushed commit
-alias git-diff-added-changes='git diff --cached'
-alias git-diff-with-head='git diff HEAD'
+# Diff
+alias git-diff-added-changes='git diff --staged' # shows you only git added diff with HEAD
+alias git-diff-with-head='git diff HEAD' # shows you all the changes between local and HEAD
+# Merge
 alias git-merge-with-origin-main='git fetch && git merge origin/main'
 alias git-merge-with-origin-master='git fetch && git merge origin/master'
 
