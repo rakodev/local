@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 alias bin-console='docker-compose exec php-fpm bin/console'
 alias bin-console-test='docker-compose exec php-fpm-test bin/console'

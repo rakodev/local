@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # https://stackoverflow.com/questions/1550288/os-x-terminal-colors
 # https://geoff.greer.fm/lscolors/

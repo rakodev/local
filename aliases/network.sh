@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Trace a domain, example:
 # dig-trace docker.com

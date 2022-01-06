@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Initialise a terraform project
 alias tf-init='terraform init'

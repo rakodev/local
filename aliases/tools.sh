@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 alias which-shell-is-currently-running='ps -o comm= $$'
 alias which-shell-is-my-default='echo $SHELL'
@@ -41,4 +41,17 @@ tools-copy-file-content-to-clipboard() {
 		return 0;
 	fi
 	tr -d '\n' < $1 | pbcopy
+}
+
+# tools-find-in-Folder-this-File . "pre*"
+tools-find-in-Folder-this-File() {
+	if [ -z "$1" ]; then
+		echo "folder is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "file name is missing!";
+		return 0;
+	fi
+    find $1 -name $2
 }

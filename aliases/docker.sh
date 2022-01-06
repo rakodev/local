@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # create a docker network, give the network name at the end of the command
 alias d-create-network='docker network create -d bridge'

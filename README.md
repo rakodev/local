@@ -1,4 +1,4 @@
-## This repo is a way to create alias for you command but also a reminder for some commands you don't use often
+## This repo is a way to create alias for your Terminal and it can also be used as a reminder for some commands you don't use often
 
 ### Set your global git name and email
 
@@ -48,15 +48,13 @@ source ~/local/aliases/aws.sh
 source ~/local/aliases/terraform.sh  
 ```
 
-### Enable your .bash_profile without restarting
+### Reload your shell profile
 
 ```bash
 source ~/.bash_profile
 ```
 
 OR
-
-### Enable your .zshrc without restarting
 
 ```bash
 source ~/.zshrc

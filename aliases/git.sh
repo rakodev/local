@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # new repo
 #git init
@@ -14,7 +14,7 @@
 alias git-c='git checkout'
 alias git-p='git pull'
 alias git-cb='git checkout -b'
-alias git-ap='git add -A . && git add --patch' # https://stackoverflow.com/questions/14491727/git-add-patch-to-include-new-files?answertab=active#tab-top
+alias git-ap='git add --all --intent-to-add && git add --patch && git status'
 alias git-co='git commit -m'
 alias git-pu='git push -u origin HEAD'
 # Branch

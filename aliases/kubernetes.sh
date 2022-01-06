@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 alias minikube-start="minikube start"
 alias minikube-status="minikube status"

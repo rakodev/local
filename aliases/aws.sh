@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 alias aws-edit-credentials='vim ~/.aws/credentials'
