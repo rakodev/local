@@ -43,8 +43,8 @@ tools-copy-file-content-to-clipboard() {
 	tr -d '\n' < $1 | pbcopy
 }
 
-# tools-find-in-Folder-this-File . "pre*"
-tools-find-in-Folder-this-File() {
+# tools-search-in-Folder-this-File . "pre*"
+tools-search-in-Folder-this-File() {
 	if [ -z "$1" ]; then
 		echo "folder is missing!";
 		return 0;
@@ -54,4 +54,52 @@ tools-find-in-Folder-this-File() {
 		return 0;
 	fi
     find $1 -name $2
+}
+
+tools-search-in-Folder-this-String() {
+	if [ -z "$1" ]; then
+		echo "folder is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "String is missing!";
+		return 0;
+	fi
+	grep -r -i -n $2 $1
+}
+
+tools-search-in-Folder-this-String-in-this-FileExtention() {
+	if [ -z "$1" ]; then
+		echo "folder is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "String is missing!";
+		return 0;
+	fi
+	if [ -z "$3" ]; then
+		echo "File type is missing!";
+		return 0;
+	fi
+	grep -r -i -n --include="*.$3" $2 $1
+}
+
+tools-search-in-Folder-this-String-in-this-FileExtention-ExcludeFolder() {
+	if [ -z "$1" ]; then
+		echo "folder is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "String is missing!";
+		return 0;
+	fi
+	if [ -z "$3" ]; then
+		echo "File type is missing!";
+		return 0;
+	fi
+	if [ -z "$3" ]; then
+		echo "Folder to exclude is missing!";
+		return 0;
+	fi
+	grep -r -i -n --include="*.$3" --exclude="*/$4/*" $2 $1
 }

@@ -50,3 +50,43 @@ aws-cloudformation-stack-status(){
 	fi
 	aws cloudformation describe-stacks --stack-name $1 --query "Stacks[0].StackStatus" --output text
 }
+
+# if you give a parameter, it'll filter only names containing this string
+aws-s3-list() {
+	if [ -z "$1" ]; then
+		aws s3api list-buckets --query "Buckets[].Name" | tr -d '"' | tr -d ','
+	else
+		aws s3api list-buckets --query "Buckets[].Name" | grep $1 | tr -d '"' | tr -d ','
+	fi
+}
+
+aws-s3-list-files-filter-by-FileExtentionType() {
+	if [ -z "$1" ]; then
+		echo "Please, specify which type of file you want";
+		return 0;
+	fi
+	aws s3 ls --recursive | grep '\.$1$'
+}
+
+aws-s3-copy-From-To() {
+	if [ -z "$1" ]; then
+		echo "s3 bucket name and/or folder is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Local path is missing!";
+		return 0;
+	fi
+	aws s3 cp s3://$1 $2 --recursive
+}
+
+aws-s3-sync-From-To() {
+	if [ -z "$1" ]; then
+		echo "s3 bucket name and/or folder is missing!";
+		return 0;
+	fi
+	aws s3 sync s3://$1 $2 
+}
+
+# aws s3 sync s3://961185673371-tf-state/env:/ ~/Downloads/octopus/st
+# aws s3 cp s3://961185673371-tf-state/env:/ ~/Downloads/octopus/st --recursive
