@@ -87,6 +87,3 @@ aws-s3-sync-From-To() {
 	fi
 	aws s3 sync s3://$1 $2 
 }
-
-# aws s3 sync s3://961185673371-tf-state/env:/ ~/Downloads/octopus/st
-# aws s3 cp s3://961185673371-tf-state/env:/ ~/Downloads/octopus/st --recursive
