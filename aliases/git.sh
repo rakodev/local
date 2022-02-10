@@ -346,8 +346,7 @@ git-config-list-user() {
 }
 
 alias git-config-list-all-global='git config --global --list'
-alias git-config-list-all-local='git config --global --list'
-
+alias git-config-list-all-local='git config --local --list'
 
 # git-config-global "Name LastName" "email@example.com"
 git-config-set-global() {
