@@ -60,6 +60,14 @@ aws-s3-list() {
 	fi
 }
 
+aws-s3-list-recursive-in-Bucketname() {
+	if [ -z "$1" ]; then
+		echo "s3 bucket name and/or folder is missing!";
+		return 0;
+	fi
+	aws s3 ls s3://$1 --recursive --human-readable --summarize
+}
+
 aws-s3-list-files-filter-by-FileExtentionType() {
 	if [ -z "$1" ]; then
 		echo "Please, specify which type of file you want";

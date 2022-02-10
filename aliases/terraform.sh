@@ -33,3 +33,13 @@ alias tfenv-upgrade='git --git-dir=~/.tfenv/.git pull'
 tfenv-create-version-file () {
     echo $1 > .terraform-version
 }
+
+# Activate Terraform Logs for debug purpose
+tf-log-trace () {
+    export TF_LOG_PATH=trace.log
+    export TF_LOG=TRACE
+}
+# Deactivate Terraform Logs
+tf-log-deactivate () {
+    export TF_LOG=
+}

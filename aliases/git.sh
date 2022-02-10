@@ -61,8 +61,9 @@ git-log-Search() {
 ################# Diff
 ######################################
 alias git-diff-staged='git fetch origin HEAD && git diff --staged' # diff with HEAD
-alias git-diff-with-remote-head='git fetch origin HEAD &&git diff origin HEAD' # diff between local and remote HEAD (main if still no remote)
+alias git-diff-with-remote-head='git fetch origin HEAD && git diff origin HEAD' # diff between local and remote HEAD (main if still no remote)
 alias git-diff-with-origin-main='git fetch origin main && git diff origin/main' # diff between current and remote main
+alias git-diff-current-with-Branchname='git fetch origin && git diff' # diff between current and remote main
 
 # you can give remote branch name with prefix origin/ before the branchnames for both side
 # example: git-diff-FromBranch-ToBranch origin/master origin/develop
