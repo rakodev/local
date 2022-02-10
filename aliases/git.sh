@@ -223,19 +223,14 @@ git-fetch-and-checkout-Branch() {
 	git pull;
 }
 
-# use it like this git-edit-last-pushed-commit 5054777864e4345d115f80025f913a403381d6c8 "my commit message I want"
-git-edit-LastPushedCommitSHA-with-new-Description() {
+# use it like this git-edit-last-pushed-commit "my commit message I want"
+git-edit-last-pushed-commit-with-NewCommitMessage() {
 	if [ -z "$1" ]; then
-		echo "Last good commit SHA1 is missing!";
-		return 0;
-	fi
-	if [ -z "$2" ]; then
 		echo "Commit message is missing!";
 		return 0;
 	fi
-	git reset $1
-	git commit -am "$2"
-	git push -f
+	git commit --amend -m "$1"
+	git push --force-with-lease
 }
 
 # $1 is the sha1 of the commit you want to come back

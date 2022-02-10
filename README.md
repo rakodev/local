@@ -76,3 +76,7 @@ cat ~/.ssh/id_rsa.pub | pbcopy
 ```bash
 echo "source ~/local/settings/vimrc" > ~/.vimrc
 ```
+### Enable Global gitignore file
+```bash
+git config --global core.excludesfile ~/local/utils/global.gitignore
+```
