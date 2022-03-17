@@ -56,17 +56,9 @@ tools-search-in-Folder-this-File() {
     find $1 -name $2
 }
 
-tools-search-in-Folder-this-String() {
-	if [ -z "$1" ]; then
-		echo "folder is missing!";
-		return 0;
-	fi
-	if [ -z "$2" ]; then
-		echo "String is missing!";
-		return 0;
-	fi
-	grep -r -i -n $2 $1
-}
+# if you'd like to exclude dir add this extra param like this:  
+# --exclude-dir=".terraform"
+alias tools-search-String-in-Folder='grep -r -i -n --exclude-dir=".terraform"'
 
 tools-search-in-Folder-this-String-in-this-FileExtention() {
 	if [ -z "$1" ]; then
@@ -102,4 +94,15 @@ tools-search-in-Folder-this-String-in-this-FileExtention-ExcludeFolder() {
 		return 0;
 	fi
 	grep -r -i -n --include="*.$3" --exclude="*/$4/*" $2 $1
+}
+
+# show list of local shells
+alias tools-list-shell='cat /etc/shells'
+# to switch between shells, use this command like this: chsh -s /bin/sh
+
+# https://chrisjean.com/view-csv-data-from-the-command-line/
+tools-csv-beautifier() {
+	# $1 is filepath
+	# $2 is number of column for each row
+	cat $1  | sed -e 's/,,/, ,/g' | column -s, -t | less -#$2 -N -S
 }

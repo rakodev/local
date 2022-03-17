@@ -15,6 +15,8 @@ alias tf-destroy='terraform destroy'
 # Rewrite Terraform configuration files to a canonical format and style
 alias tf-fmt='terraform fmt'
 alias tf-check='terraform fmt & terraform validate'
+# Chexk for errors, deprecated syntax... https://github.com/terraform-linters/tflint
+alias tf-lint='docker run --rm -v $(pwd):/data -t ghcr.io/terraform-linters/tflint'
 # List all workspaces
 alias tf-workspace-list='terraform workspace list'
 # switch to a different workspace, add name of the selected workspace you want to switch to

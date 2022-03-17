@@ -9,6 +9,9 @@ alias sam-validate='sam validate'
 alias aws='docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN --rm -ti -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
 alias aws-get-caller-identity='aws sts get-caller-identity --query "Account" --output text'
 
+########### DynamoDB ###########
+alias aws-dynamodb-list-tables='aws dynamodb list-tables'
+
 # aws-ssh-ec2 EC2Tutorial.pem 52.51.204.186
 aws-ssh-ec2() {
     if [ -z "$1" ]; then

@@ -7,8 +7,10 @@ alias git-c='git checkout'
 alias git-p='git pull'
 alias git-cb='git checkout -b'
 alias git-ap='git add --all --intent-to-add && git add --patch && git status'
+alias git-pap='pre-commit run -a && git add --all --intent-to-add && git add --patch && git status'
 alias git-co='git commit -m'
 alias git-pu='git push -u origin HEAD'
+alias git-main='git clean --force && git reset --hard && git checkout main && git pull'
 
 ######################################
 ################# Branch
@@ -46,7 +48,7 @@ git-commit-edit-last-unpushed-Description() {
 ################# Log
 ######################################
 alias git-log='git log --graph --oneline --decorate'
-alias git-log-changes='git log -p'
+alias git-log-Filename-changes='git log -p'
 alias git-log-list='git log --pretty="%ar - %h - %an - %s"'
 
 # Retrieve all commits by message
@@ -146,7 +148,7 @@ git-merge-with-LocalBranchName() {
 ################# Checkout
 ######################################
 
-git-checkout-remote-branch() {
+git-checkout-remote-Branchname() {
 	if [ -z "$1" ]; then
 		echo "branch name is missing";
 		return 0;
