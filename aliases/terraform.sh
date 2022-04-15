@@ -21,10 +21,8 @@ alias tf-lint='docker run --rm -v $(pwd):/data -t ghcr.io/terraform-linters/tfli
 alias tf-workspace-list='terraform workspace list'
 # switch to a different workspace, add name of the selected workspace you want to switch to
 alias tf-workspace-select='terraform workspace select'
-# list all workspaces
-alias tf-list='terraform workspace list'
 # create new workspace, give the workspace name at the end of this command
-alias tf-create-workspace='terraform workspace new'
+alias tf-workspace-new='terraform workspace new'
 
 # tfenv - https://github.com/tfutils/tfenv
 alias tfenv-list-local='tfenv list'
@@ -32,6 +30,11 @@ alias tfenv-list-remote='tfenv list remote'
 alias tfenv-use='tfenv use' # add terraform version
 alias tfenv-uninstall-tf-version="tfenv uninstall" # add terraform version
 alias tfenv-upgrade='git --git-dir=~/.tfenv/.git pull'
+
+tf-show-Planfile-short() {
+    terraform show $1 -no-color | grep -E '(^.*[#~+-] .*|^[[:punct:]]|Plan)'
+}
+
 tfenv-create-version-file () {
     echo $1 > .terraform-version
 }

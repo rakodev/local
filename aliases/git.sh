@@ -10,7 +10,7 @@ alias git-ap='git add --all --intent-to-add && git add --patch && git status'
 alias git-pap='pre-commit run -a && git add --all --intent-to-add && git add --patch && git status'
 alias git-co='git commit -m'
 alias git-pu='git push -u origin HEAD'
-alias git-main='git clean --force && git reset --hard && git checkout main && git pull'
+alias git-main='git stash && git clean --force && git reset --hard && git checkout main && git pull'
 
 ######################################
 ################# Branch
@@ -47,9 +47,10 @@ git-commit-edit-last-unpushed-Description() {
 ######################################
 ################# Log
 ######################################
-alias git-log='git log --graph --oneline --decorate'
+alias git-log='git log --no-merges --graph --pretty=fuller'
+# https://git-scm.com/docs/git-log#Documentation/git-log.txt-emHem
+alias git-log-list='git log --no-merges --pretty="%as - %h - %an - %s"'
 alias git-log-Filename-changes='git log -p'
-alias git-log-list='git log --pretty="%ar - %h - %an - %s"'
 
 # Retrieve all commits by message
 git-log-Search() {
