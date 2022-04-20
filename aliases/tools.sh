@@ -106,3 +106,21 @@ tools-csv-beautifier() {
 	# $2 is number of column for each row
 	cat $1  | sed -e 's/,,/, ,/g' | column -s, -t | less -#$2 -N -S
 }
+
+# https://unix.stackexchange.com/questions/548892/how-to-json-escape-input
+tools-json-encode-Filename-content() {
+	if [ -z "$1" ]; then
+		echo "filepath is missing!";
+		return 0;
+	fi
+	jq -R -s '.' < $1
+}
+
+# give json as parameter inside single quotes
+tools-json-encode-JsonString() {
+	if [ -z "$1" ]; then
+		echo "Json string is missing!";
+		return 0;
+	fi
+	jq @json <<< $1
+}
