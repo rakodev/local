@@ -12,6 +12,9 @@ alias aws-get-caller-identity='aws sts get-caller-identity --query "Account" --o
 ########### DynamoDB ###########
 alias aws-dynamodb-list-tables='aws dynamodb list-tables'
 
+########### CloudWatch ###########
+alias aws-cloudwatch-dashboard-list="aws cloudwatch list-dashboards | jq '.DashboardEntries[].DashboardName'"
+
 # aws-ssh-ec2 EC2Tutorial.pem 52.51.204.186
 aws-ssh-ec2() {
     if [ -z "$1" ]; then

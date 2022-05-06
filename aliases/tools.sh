@@ -6,6 +6,8 @@ alias which-shell-is-my-default='echo $SHELL'
 alias list-python-versions-with-pyenv='ls -l $(pyenv root)/versions'
 alias list-all-python-available='pyenv install --list'
 alias show-python-fullpath='pyenv which python'
+# Remove all log files in current directory and its subfolders
+alias tools-remove-log-files='find . -type f -name "*.log" -exec rm -f {} \;'
 
 # Zip all files in current directory (hidden files included)
 tools-zip-all-in-current-directory() {
