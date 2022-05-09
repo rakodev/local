@@ -60,6 +60,30 @@ git-log-Search() {
 	fi
 	git log --all --grep='$1';
 }
+
+git-log-with-diff-SinceInDays-for-File() {
+	if [ -z "$1" ]; then
+		echo "Filename is missing";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Filename is missing";
+		return 0;
+	fi
+	git log -p --since="$2 days ago" $1
+}
+
+git-log-with-diff-UntilInDays-for-File() {
+	if [ -z "$1" ]; then
+		echo "Filename is missing";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Filename is missing";
+		return 0;
+	fi
+	git log -p --until="$2 days ago" $1
+}
 ######################################
 ################# Diff
 ######################################

@@ -15,6 +15,12 @@ alias aws-dynamodb-list-tables='aws dynamodb list-tables'
 ########### CloudWatch ###########
 alias aws-cloudwatch-dashboard-list="aws cloudwatch list-dashboards | jq '.DashboardEntries[].DashboardName'"
 
+########### Logs ###########
+# Get log groups without rentention time
+alias aws-log-group-list-without-retention-time="aws logs describe-log-groups | jq '[.logGroups[]| {logGroupName:.logGroupName, creationTime:.creationTime|(./1000)|strftime(\"%d-%m-%Y\")}]'"
+# Get log groups without rentention time
+alias aws-log-group-list-without-retention-time="aws logs describe-log-groups | jq '[.logGroups[] | select(has(\"retentionInDays\")|not) | {logGroupName:.logGroupName, creationTime:.creationTime|(./1000)|strftime(\"%d-%m-%Y\")}]'"
+
 # aws-ssh-ec2 EC2Tutorial.pem 52.51.204.186
 aws-ssh-ec2() {
     if [ -z "$1" ]; then
