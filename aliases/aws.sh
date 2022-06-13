@@ -6,20 +6,14 @@ alias aws-edit-config='vim ~/.aws/config'
 alias aws-list-profile='aws configure list-profiles'
 # Validate a sam template file, you can also specify the template file location as a parameter
 alias sam-validate='sam validate'
-alias aws='docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN --rm -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
-alias aws-get-caller-identity='aws sts get-caller-identity --query "Account" --output text'
+# alias aws='docker run -e AWS_CONFIG_FILE -e AWS_PROFILE -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN --rm -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
 
-########### DynamoDB ###########
-alias aws-dynamodb-list-tables='aws dynamodb list-tables'
-
-########### CloudWatch ###########
-alias aws-cloudwatch-dashboard-list="aws cloudwatch list-dashboards | jq '.DashboardEntries[].DashboardName'"
-
-########### Logs ###########
-# Get log groups without rentention time
-alias aws-log-group-list-without-retention-time="aws logs describe-log-groups | jq '[.logGroups[]| {logGroupName:.logGroupName, creationTime:.creationTime|(./1000)|strftime(\"%d-%m-%Y\")}]'"
-# Get log groups without rentention time
-alias aws-log-group-list-without-retention-time="aws logs describe-log-groups | jq '[.logGroups[] | select(has(\"retentionInDays\")|not) | {logGroupName:.logGroupName, creationTime:.creationTime|(./1000)|strftime(\"%d-%m-%Y\")}]'"
+aws-get-caller-identity() {
+	if [ -v AWS_PROFILE ]; then
+		echo "AWS_PROFILE: ${AWS_PROFILE}"
+	fi
+	echo "AWS_ACCOUNT_ID: "$(aws sts get-caller-identity --query "Account" --output text)
+}
 
 # aws-ssh-ec2 EC2Tutorial.pem 52.51.204.186
 aws-ssh-ec2() {
@@ -33,6 +27,35 @@ aws-ssh-ec2() {
 	fi
     ssh -i $1 ec2-user@$2
 }
+
+########### DynamoDB ###########
+alias aws-dynamodb-list-tables='aws dynamodb list-tables'
+
+########### CloudWatch ###########
+alias aws-cloudwatch-dashboard-list="aws cloudwatch list-dashboards | jq '.DashboardEntries[].DashboardName'"
+
+########### SSO ###########
+alias aws-sso-login='aws sso login'
+alias aws-sso-logout='aws sso logout'
+
+########### Logs ###########
+# Get log groups without rentention time
+alias aws-log-group-list-without-retention-time="aws logs describe-log-groups | jq '[.logGroups[]| {logGroupName:.logGroupName, creationTime:.creationTime|(./1000)|strftime(\"%d-%m-%Y\")}]'"
+# Get log groups without rentention time
+alias aws-log-group-list-without-retention-time="aws logs describe-log-groups | jq '[.logGroups[] | select(has(\"retentionInDays\")|not) | {logGroupName:.logGroupName, creationTime:.creationTime|(./1000)|strftime(\"%d-%m-%Y\")}]'"
+
+########### Cloudformation ###########
+
+# it shows you which status is currently your stack
+aws-cloudformation-stack-status(){
+	if [ -z "$1" ]; then
+		echo "StackName is missing!";
+		return 0;
+	fi
+	aws cloudformation describe-stacks --stack-name $1 --query "Stacks[0].StackStatus" --output text
+}
+
+########### S3 ###########
 
 aws-create-s3() {
 	if [ -z "$1" ]; then
@@ -52,15 +75,6 @@ aws-copy-to-s3(){
 		return 0;
 	fi
 	aws s3 cp $1 s3://$2
-}
-
-# it shows you which status is currently your stack
-aws-cloudformation-stack-status(){
-	if [ -z "$1" ]; then
-		echo "StackName is missing!";
-		return 0;
-	fi
-	aws cloudformation describe-stacks --stack-name $1 --query "Stacks[0].StackStatus" --output text
 }
 
 # if you give a parameter, it'll filter only names containing this string
