@@ -12,7 +12,24 @@ aws-get-caller-identity() {
 	if [ -v AWS_PROFILE ]; then
 		echo "AWS_PROFILE: ${AWS_PROFILE}"
 	fi
-	echo "AWS_ACCOUNT_ID: "$(aws sts get-caller-identity --query "Account" --output text)
+	aws_account_id=$(aws sts get-caller-identity --query "Account" --output text)
+	if [ -n $aws_account_id ]; then
+		echo "You're not logged in"
+	else
+		echo "AWS_ACCOUNT_ID: "$aws_account_id
+	fi
+}
+
+aws-sso-get-caller-identity() {
+	if [ -v AWS_PROFILE ]; then
+		echo "AWS_PROFILE: ${AWS_PROFILE}"
+	fi
+	aws_account_id=$(aws sts get-caller-identity --query "Account" --output text)
+	if [ -n $aws_account_id ]; then
+		aws sso login
+		aws_account_id=$(aws sts get-caller-identity --query "Account" --output text)
+	fi
+	echo "AWS_ACCOUNT_ID: "$aws_account_id
 }
 
 # aws-ssh-ec2 EC2Tutorial.pem 52.51.204.186
