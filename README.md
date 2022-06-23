@@ -80,3 +80,8 @@ echo "source ~/local/settings/vimrc" > ~/.vimrc
 ```bash
 git config --global core.excludesfile ~/local/utils/global.gitignore
 ```
+
+### Enable Global Git Template File (Pre-commit hooks)
+```bash
+git config --global init.templatedir ~/local/git-templates
+```

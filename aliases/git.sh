@@ -48,7 +48,7 @@ git-commit-edit-last-unpushed-Description() {
 ######################################
 ################# Log
 ######################################
-alias git-log='git log --no-merges --graph --pretty=fuller'
+alias git-log='git log --no-merges --graph --pretty=fuller -p'
 # https://git-scm.com/docs/git-log#Documentation/git-log.txt-emHem
 alias git-log-list='git log --no-merges --pretty="%as - %h - %an - %s"'
 alias git-log-Filename-changes='git log -p'
