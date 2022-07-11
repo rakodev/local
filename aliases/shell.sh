@@ -21,5 +21,7 @@ alias .='cd ../'
 alias ..='cd ../../'
 alias ...='cd ../../../'
 
+alias date='gdate'
+
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:ls -la:ll:cd:cd ..:..:...:....:.....:pwd:"

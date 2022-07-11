@@ -52,7 +52,7 @@ alias aws-dynamodb-list-tables='aws dynamodb list-tables'
 alias aws-cloudwatch-dashboard-list="aws cloudwatch list-dashboards | jq '.DashboardEntries[].DashboardName'"
 
 ########### SSO ###########
-alias aws-sso-login='aws sso login'
+alias aws-sso-login='aws sso login && echo $AWS_PROFILE'
 alias aws-sso-logout='aws sso logout'
 
 ########### Logs ###########

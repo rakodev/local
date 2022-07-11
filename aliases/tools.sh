@@ -60,7 +60,21 @@ tools-search-in-Folder-this-File() {
 
 # if you'd like to exclude dir add this extra param like this:  
 # --exclude-dir=".terraform"
-alias tools-search-String-in-Folder='grep -r -i -n --exclude-dir=".terraform"'
+# if you'd like to include only certain type of files, use this:
+# --include="*.tf"
+alias tools-search-String-in-Folder='grep -r -i -n'
+
+tools-search-String-in-File() {
+	if [ -z "$1" ]; then
+		echo "String is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "File is missing!";
+		return 0;
+	fi
+	cat $2 | grep -o $1 | wc -l
+}
 
 tools-search-in-Folder-this-String-in-this-FileExtention() {
 	if [ -z "$1" ]; then
@@ -91,7 +105,7 @@ tools-search-in-Folder-this-String-in-this-FileExtention-ExcludeFolder() {
 		echo "File type is missing!";
 		return 0;
 	fi
-	if [ -z "$3" ]; then
+	if [ -z "$4" ]; then
 		echo "Folder to exclude is missing!";
 		return 0;
 	fi

@@ -11,7 +11,7 @@ alias git-undo-add='git reset --'
 alias git-pap='pre-commit run -a && git add --all --intent-to-add && git add --patch && git status'
 alias git-co='git commit -m'
 alias git-pu='git push -u origin HEAD'
-alias git-main='git stash && git clean --force && git reset --hard && git checkout main && git pull'
+alias git-main='git stash -u && git clean --force && git reset --hard && git checkout main && git pull'
 
 ######################################
 ################# Branch
@@ -288,7 +288,7 @@ git-stash-push-with-Description() {
 	if [ $1 ]; then
 		git stash push -m "$1"
 	else
-		git stash
+		git stash -u
 	fi
 }
 
