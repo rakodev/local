@@ -13,7 +13,7 @@ aws-get-caller-identity() {
 		echo "AWS_PROFILE: ${AWS_PROFILE}"
 	fi
 	aws_account_id=$(aws sts get-caller-identity --query "Account" --output text)
-	if [ -n $aws_account_id ]; then
+	if [ -z $aws_account_id ]; then
 		echo "You're not logged in"
 	else
 		echo "AWS_ACCOUNT_ID: "$aws_account_id
