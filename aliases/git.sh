@@ -12,6 +12,7 @@ alias git-pap='pre-commit run -a && git add --all --intent-to-add && git add --p
 alias git-co='git commit -m'
 alias git-pu='git push -u origin HEAD'
 alias git-main='git stash -u && git clean --force && git reset --hard && git checkout main && git pull'
+alias git-remove-merged-branch-to-main="git fetch && git branch --merged | egrep -v 'main' | xargs git branch -d"
 
 ######################################
 ################# Branch
@@ -342,7 +343,7 @@ git-rebase-interactive-Branch() {
 
 git-delete-Branch-both-local-and-remote() {
 	if [ -z "$1" ]; then
-		echo "Parameter last commit hash is missing!";
+		echo "Branch name is missing";
 		return 0;
 	fi
 	# delete branch remotely
@@ -401,4 +402,25 @@ git-config-set-local() {
 	fi
     git config user.name "$1";
     git config user.email "$2";
+}
+
+
+######################################
+################# Git cache
+######################################
+
+git-remove-Filename-from-git-cache() {
+	if [ -z "$1" ]; then
+		echo "Filename is missing";
+		return 0;
+	fi
+	git rm --cached $1
+}
+
+git-remove-Folder-from-git-cache() {
+	if [ -z "$1" ]; then
+		echo "Folder name is missing";
+		return 0;
+	fi
+	git rm -r --cached $1
 }
