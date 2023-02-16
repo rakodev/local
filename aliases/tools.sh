@@ -62,8 +62,17 @@ tools-search-in-Folder-this-File() {
 # --exclude-dir=".terraform"
 # if you'd like to include only certain type of files, use this:
 # --include="*.tf"
-alias tools-search-String-in-Folder="grep -r -i -n -I"
-alias tools-search-String-in-Folder-exclude-hidden-folder="grep -r -i -n -I --exclude-dir='.*'"
+alias tools-search-String-in-Folder="grep -r -i -n -I --exclude-dir '.terraform'"
+# alias tools-search-String-in-Folder-exclude-hidden-folder="grep -r -i -n -I --exclude-dir='.*'" # Doesn't work on MacOs
+
+
+tools-search-String-in-Folder-count() {
+	if [ -z "$1" ]; then
+		echo "String is missing!";
+		return 0;
+	fi
+	grep -r -i -n -I -c $1 . | grep -v ':0$'
+}
 
 tools-search-String-in-File() {
 	if [ -z "$1" ]; then

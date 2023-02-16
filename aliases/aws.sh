@@ -95,7 +95,7 @@ aws-copy-to-s3(){
 }
 
 # if you give a parameter, it'll filter only names containing this string
-aws-s3-list() {
+aws-s3-list-buckets() {
 	if [ -z "$1" ]; then
 		aws s3api list-buckets --query "Buckets[].Name" | tr -d '"' | tr -d ','
 	else

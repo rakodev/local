@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export TF_CLI_CONFIG_FILE="~/local/terraform/.terraformrc"
+
 # Initialise a terraform project
 alias tf-init='terraform init'
 # Initialise without backend (no link to state file)

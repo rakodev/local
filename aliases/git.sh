@@ -30,22 +30,14 @@ git-Branch-remove() {
 	fi
 	git branch -D $1;
 }
-######################################
-################# Commit
-######################################
-alias git-commit-Description='git commit -m' # "commit description"
-alias git-commit-amend-new-Description='git commit --amend -m' # Add staged files to commit and edit last commit message
-alias git-commit-add-and-amend='git-add-patch & git commit --amend' # add new edit to the last unpushed commit
-alias git-add-to-previous-commit='git commit --amend --no-edit'
 
-# Edit last commit message
-git-commit-edit-last-unpushed-Description() {
-	if [ -z "$1" ]; then
-		echo "Commit message is missing";
-		return 0;
-	fi
-	git commit --amend -m "$1";
-}
+######################################
+################# Amend
+######################################
+
+alias git-amend='git commit --amend --no-edit' # Add staged files to last commit
+alias git-amend-and-edit-Message='git commit --amend -m' # Add staged files to last commit and edit last commit message
+
 ######################################
 ################# Log
 ######################################
