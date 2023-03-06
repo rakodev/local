@@ -58,12 +58,27 @@ tools-search-in-Folder-this-File() {
     find $1 -name $2
 }
 
+# Search string
+
 # if you'd like to exclude dir add this extra param like this:  
 # --exclude-dir=".terraform"
 # if you'd like to include only certain type of files, use this:
 # --include="*.tf"
 alias tools-search-String-in-Folder="grep -r -i -n -I --exclude-dir '.terraform'"
 # alias tools-search-String-in-Folder-exclude-hidden-folder="grep -r -i -n -I --exclude-dir='.*'" # Doesn't work on MacOs
+
+tools-search-String-with-this-FileExtention() {
+	if [ -z "$1" ]; then
+		echo "String is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "File type extention is missing!";
+		return 0;
+	fi
+	# find . -type f -name "*.$2" ! -path "*/.*" -exec grep -H "$1" {} \; | awk -F ':' '{print $1}' | sort | uniq -c | sort -rnk2
+	find . -type f -name "*.$2" ! -path '*/.*' -exec grep -H "$1" {} \; | cut -d: -f1 | sort | uniq -c | sort -nr
+}
 
 
 tools-search-String-in-Folder-count() {
@@ -86,7 +101,7 @@ tools-search-String-in-File() {
 	cat $2 | grep -o $1 | wc -l
 }
 
-tools-search-in-Folder-this-String-in-this-FileExtention() {
+tools-search-in-Folder-this-String-with-this-FileExtention() {
 	if [ -z "$1" ]; then
 		echo "folder is missing!";
 		return 0;

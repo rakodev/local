@@ -4,7 +4,7 @@
 ################# Most Used Aliases
 ######################################
 alias git-c='git checkout'
-alias git-p='git pull'
+alias git-p='git pull --ff-only' # https://blog.sffc.xyz/post/185195398930/why-you-should-use-git-pull-ff-only
 alias git-cb='git checkout -b'
 alias git-ap='git add --all --intent-to-add && git add --patch && git status'
 alias git-undo-add='git reset --'
@@ -22,6 +22,9 @@ alias git-switch-to-previous-branch='git checkout -'
 # untracked files will be done after next commit
 alias git-untrack-file='git rm --cached'
 alias git-untrack-folder='git rm -r --cached'
+alias git-list-remote-branches-merged='git branch -r --merged main'
+# alias git-list-remote-branches='echo "----- Merged -----" && git branch -r --merged | grep -v HEAD | sed 's/origin\///' && echo "----- Not Merged -----" && git branch -r --no-merged | grep -v HEAD | sed \'s/origin\///\''
+alias git-delete-local-pushed-branches='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 
 git-Branch-remove() {
 	if [ -z "$1" ]; then
@@ -348,7 +351,7 @@ git-delete-Branch-both-local-and-remote() {
 ################# Tools
 ######################################
 
-git-copy-ssh-key() {
+git-ssh-key-copy() {
     if [[ -e ~/.ssh/id_rsa.pub ]]; then
         pbcopy < ~/.ssh/id_rsa.pub
     else
