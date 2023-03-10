@@ -1,3 +1,5 @@
+# Local best practices
+
 ## This repo is a way to create alias for your Terminal and it can also be used as a reminder for some commands you don't use often
 
 ### Set your global git name and email
