@@ -21,14 +21,16 @@ cd ~
 git clone https://github.com/rakodev/local.git
 ```
 
-### Add the following to your ~/.bash_profile or ~/.zshrc 
+### Add the following to your ~/.bash_profile or ~/.zshrc
 
 ```bash
 for file in ~/local/aliases/*; do
     source "$file"
 done
 ```
+
 OR add only the one you need
+
 ```bash
 # Docker
 source ~/local/aliases/docker.sh
@@ -73,15 +75,19 @@ cat ~/.ssh/id_rsa.pub | pbcopy
 ```
 
 ### Setup vim settings
+
 ```bash
 echo "source ~/local/settings/vimrc" > ~/.vimrc
 ```
+
 ### Enable Global gitignore file
+
 ```bash
 git config --global core.excludesfile ~/local/utils/global.gitignore
 ```
 
 ### Enable Global Git Template File (Pre-commit hooks)
+
 ```bash
 git config --global init.templatedir ~/local/git-templates
 ```
