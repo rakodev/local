@@ -31,49 +31,19 @@ for file in ~/local/aliases/*; do
 done
 ```
 
-OR add only the one you need
+OR add only the one you need, exemple with these 2
 
 ```bash
 # Docker
 source ~/local/aliases/docker.sh
 # Git
 source ~/local/aliases/git.sh
-# Shell
-source ~/local/aliases/shell.sh
-# Symfony Framework (PHP)
-source ~/local/aliases/symfony.sh
-# Network
-source ~/local/aliases/network.sh
-# Kubernetes
-source ~/local/aliases/kubernetes.sh
-# AWS
-source ~/local/aliases/aws.sh
-# Terraform
-source ~/local/aliases/terraform.sh  
 ```
 
-### Reload your shell profile
+### Reload your shell profile (This example is with zsh)
 
-```bash
-source ~/.bash_profile
-```
-
-OR
-
-```bash
+```shell
 source ~/.zshrc
-```
-
-### Setup an SSH key
-
-```bash
-ssh-keygen
-```
-
-### Copy your public keygen
-
-```bash
-cat ~/.ssh/id_rsa.pub | pbcopy
 ```
 
 ### Setup vim settings
@@ -93,3 +63,10 @@ git config --global core.excludesfile ~/local/utils/global.gitignore
 ```bash
 git config --global init.templatedir ~/local/git-templates
 ```
+
+### Other doc
+
+- [AWS](doc/AWS.md)
+- [Git](doc/Git.md)
+- [Python](doc/Python.md)
+- [VsCode](doc/VsCode.md)
