@@ -18,6 +18,7 @@
 - Ctrl Shift - = Navigate forward position
 - Cmd p = Open Files
 - Option ↑ = Move line up
+- Shift Cmd L = Select all occurrences of the selected string for editing.
 
 ### Windows
 
@@ -28,7 +29,23 @@
 - Ctrl p = Open Files
 - Ctrl r = Open Projects
 - Alt ↑ = Move line
+- Shift Ctrl L = Select all occurrences of the selected string for editing.
 
 ### Linux
 
 <https://code.visualstudio.com/shortcuts/keyboard-shortcuts-linux.pdf>
+
+## Install & Use git bash on Windows
+
+### On VsCode
+
+- Push
+```ctrl + shift + P```  
+
+- Select
+```Terminal: Select Default Profile```
+
+- Choose
+```Git Bash```
+
+```Reboot VsCode or Kill the current terminal and reopen it```
