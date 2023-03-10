@@ -1,11 +1,15 @@
 # Zsh on Windows
 
+## Blog post
+
+- <https://dominikrys.com/posts/zsh-in-git-bash-on-windows/>
+
 ## Install zsh on Windows
 
 - **Make sure you have first [install Git](./Windows-git.md)**
 
 <!-- - Install [MSYS2](https://www.msys2.org/)
-- There might be an easier way to install it via
+- There might be an easier way to install it via [Pacman](https://wiki.archlinux.org/title/pacman)
 - See [this thread](https://stackoverflow.com/questions/32712133/package-management-in-git-for-windows-git-bash) for more information
 OR -->
 - Install an extractor, for example [Peazip](https://peazip.github.io/) or [7zip](https://www.7-zip.org/)
@@ -26,3 +30,9 @@ if [ -t 1 ]; then
   exec zsh
 fi
 ```
+
+- Then install [Oh-my-zsh](https://ohmyz.sh/#install)
+
+```shell
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+``
