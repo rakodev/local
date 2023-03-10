@@ -70,3 +70,5 @@ git config --global init.templatedir ~/local/git-templates
 - [Git](doc/Git.md)
 - [Python](doc/Python.md)
 - [VsCode](doc/VsCode.md)
+- [Git on Windows](doc/Windows-git.md)
+- [Zsh on Windows](doc/Windows-zsh.md)
