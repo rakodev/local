@@ -25,14 +25,30 @@
 
 There are 2 main options:
 
-- [pip](https://pip.pypa.io/en/stable/cli/)
-
-> pip is the package installer for Python.
-
-- [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today)
+- [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today) (Recommended tool)
 
 > It is intended to replace **$ pip install** usage, as well as manual virtualenv management.  
 > Pipenv automatically creates and manages a virtualenv for your projects, as well as adds/removes packages from your Pipfile as you install/uninstall packages.
+
+- And [pip](https://pip.pypa.io/en/stable/cli/)
+
+> pip is the package installer for Python.
+
+### Pipenv
+
+Install Pipenv
+
+```shell
+pip install pipenv
+```
+
+Pipenv commands
+
+```shell
+pipenv install <package>
+# example
+pipenv install fastapi
+```
 
 ### Pip
 
@@ -46,12 +62,4 @@ Install from requirements.txt
 
 ```shell
 pip install -r requirements.txt
-```
-
-### Pipenv
-
-Install Pipenv
-
-```shell
-pip install pipenv
 ```
