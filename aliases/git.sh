@@ -49,6 +49,14 @@ alias git-log='git log --no-merges --graph --pretty=fuller -p'
 alias git-log-list='git log --no-merges --pretty="%as - %h - %an - %s"'
 alias git-log-Filename-changes='git log -p'
 
+git-log-grep-by-Keyword() {
+	if [ -z "$1" ]; then
+		echo "Search string is missing";
+		return 0;
+	fi
+	git log --no-merges --pretty="%as - %h - %an - %s" --grep='$1'
+}
+
 # Retrieve all commits by message
 git-log-Search() {
 	if [ -z "$1" ]; then

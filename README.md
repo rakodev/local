@@ -73,3 +73,4 @@ git config --global init.templatedir ~/local/git-templates
 - [Git on Windows](doc/Windows-git.md)
 - [Zsh on Windows](doc/Windows-zsh.md)
 - [Terraform](doc/Terraform.md)
+- [Terminal](doc/Terminal.md)

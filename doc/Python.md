@@ -34,22 +34,6 @@ There are 2 main options:
 
 > pip is the package installer for Python.
 
-### Pipenv
-
-Install Pipenv
-
-```shell
-pip install pipenv
-```
-
-Pipenv commands
-
-```shell
-pipenv install <package>
-# example
-pipenv install fastapi
-```
-
 ### Pip
 
 To create a requirements.txt file for you project after installing libraries with pip
@@ -63,3 +47,9 @@ Install from requirements.txt
 ```shell
 pip install -r requirements.txt
 ```
+
+## FastAPI
+
+### FastAPI dockerfile
+
+<https://fastapi.tiangolo.com/deployment/docker/#dockerfile>
