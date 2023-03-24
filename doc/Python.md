@@ -48,6 +48,11 @@ Install from requirements.txt
 pip install -r requirements.txt
 ```
 
+## Virtualenv
+
+<https://virtualenv.pypa.io/en/latest/installation.html>
+<https://docs.python-guide.org/dev/virtualenvs/#basic-usage>
+
 ## FastAPI
 
 ### FastAPI dockerfile

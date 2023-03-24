@@ -1,19 +1,15 @@
 #!/bin/sh
 
-# create a docker network, give the network name at the end of the command
-alias d-create-network='docker network create -d bridge'
+# Documentation:
+# https://docs.docker.com/engine/reference/run/
+alias docker-list-all-containers='docker ps -a'
+alias docker-stop-all-containers='docker ps -aq | xargs docker stop'
+alias docker-stop-and-remove-all-containers='docker ps -aq | xargs docker stop | xargs docker rm -f'
+alias docker-list-all-images='docker image -a'
+alias docker-remove-unused-images='docker image prune -af'
+alias docker-remove-unused-images-older-than-a-week='docker image prune -a --force --filter "until=168h"' # Remove all images older than 1 week
 
 alias dc='docker-compose'
-# list all containers
-alias d-ps='docker ps -a'
-# stop a container, it needs a container ID as parameter (coming from docker ps)
-alias d-stop='docker stop'
-# remove a container, it needs a container ID as parameter (coming from docker ps)
-alias d-rm='docker rm'
-# stop and remove a container, it needs a container ID as parameter (coming from docker ps)
-alias d-rmf='docker rm -f'
-# Scan your container against security vulnerabilities, it needs an image-name as parameter (coming from docker ps)
-alias d-scan='docker scan'
 
 d-remove-by-image-name() {
 	if [ -z "$1" ]; then
@@ -47,11 +43,6 @@ dc-up (){
     dc up -d;
 }
 
-# list containers
-dc-list() {
-	dc ps;
-}
-
 dc-restart(){
     if [ -z "$1" ]; then
 		echo "Parameter service name is missing";
@@ -63,23 +54,6 @@ docker-clear() {
 #    docker rm $(docker ps -a -f status=exited -f status=created -q)
     docker system prune -a;
     docker images purge;
-}
-
-docker-bash() {
-	docker exec -it gez-php-fpm /bin/bash
-}
-
-docker-list-all-local-images () {
-	docker image ls -a
-}
-
-docker-remove-unused-image() {
-	docker image prune
-}
-
-#stop all running containers
-docker-stop-all() {
-	docker stop $(docker ps -aq)
 }
 
 docker-clean-all() {
