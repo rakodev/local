@@ -9,6 +9,7 @@ alias python-pipenv-list='for venv in ~/.local/share/virtualenvs/* ; do basename
 # Venv
 alias venv-create='python -m venv .venv'
 alias venv-activate='source .venv/bin/activate'
+alias venv-activate-windows='source .venv/Scripts/activate'
 alias venv-deactivate='deactivate'
 # Virtualenv venv
 alias virtualenv-create='virtualenv .venv'
