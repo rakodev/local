@@ -29,3 +29,4 @@ set laststatus=2
 
 " show full file path in the status line
 set statusline+=%F
+
