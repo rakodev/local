@@ -8,4 +8,5 @@ __pycache__
 # ignore all . files and . folders
 # .*
 *.zip
-.temp/
+.temp*
+.env*

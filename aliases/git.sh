@@ -3,6 +3,7 @@
 ######################################
 ################# Most Used Aliases
 ######################################
+alias git-i='git init'
 alias git-c='git checkout'
 alias git-p='git pull --ff-only' # https://blog.sffc.xyz/post/185195398930/why-you-should-use-git-pull-ff-only
 alias git-cb='git checkout -b'
@@ -118,6 +119,25 @@ git-diff-FromBranch-ToBranch-for-a-File() {
 		return 0;
 	fi
 	git diff $1..$2 -- $3
+}
+
+
+git-diff-in-any-sub-folders() {
+	find . -type d -name .git -execdir sh -c '
+		if git rev-parse --is-inside-work-tree >/dev/null 2>&1 && git rev-parse --verify HEAD >/dev/null 2>&1; then
+			if ! git diff-index --quiet HEAD --; then
+				echo "########################################################"
+				echo "########################################################"
+				echo "Repository: $(basename "$PWD")"
+				echo "########################################################"
+				echo "########################################################"
+				echo "\n"
+				git --no-pager diff
+				echo "\n\n\n"
+				exit 1
+			fi
+		fi
+	' \;
 }
 
 ######################################

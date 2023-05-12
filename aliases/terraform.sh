@@ -6,8 +6,6 @@ export TF_CLI_CONFIG_FILE="~/local/terraform/.terraformrc"
 alias tf-init='terraform init'
 # Initialise without backend (no link to state file)
 alias tf-init-without-backend='terraform init -backend=false'
-# Validate your terraform syntax
-alias tf-validate='terraform validate'
 # Check terraform files
 alias tf-plan='terraform plan'
 # Apply all the plan
@@ -16,15 +14,21 @@ alias tf-apply='terraform apply'
 alias tf-destroy='terraform destroy'
 # Rewrite Terraform configuration files to a canonical format and style
 alias tf-fmt='terraform fmt'
-alias tf-check='terraform fmt & terraform validate'
+# Validate your terraform syntax
+alias tf-validate='terraform validate'
+alias tf-fmt-and-validate='terraform fmt & terraform validate'
 # Chexk for errors, deprecated syntax... https://github.com/terraform-linters/tflint
 alias tf-lint='docker run --rm -v $(pwd):/data -t ghcr.io/terraform-linters/tflint'
 # List all workspaces
 alias tf-workspace-list='terraform workspace list'
 # switch to a different workspace, add name of the selected workspace you want to switch to
-alias tf-workspace-select='terraform workspace select'
+alias tf-workspace-select-Name='terraform workspace select'
 # create new workspace, give the workspace name at the end of this command
-alias tf-workspace-new='terraform workspace new'
+alias tf-workspace-new-Name='terraform workspace new'
+# download statefile
+alias tf-state-download-to-Filename='terraform state pull >'
+# find from state
+alias tf-state-find-Searchstring='terraform state list | grep'
 
 # tfenv - https://github.com/tfutils/tfenv
 alias tfenv-list-local='tfenv list'
