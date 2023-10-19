@@ -67,6 +67,63 @@ tools-search-in-Folder-this-File() {
 alias tools-search-String-in-Folder="grep -r -i -n -I --exclude-dir '.terraform'"
 # alias tools-search-String-in-Folder-exclude-hidden-folder="grep -r -i -n -I --exclude-dir='.*'" # Doesn't work on MacOs
 
+# To search for the string "Hello" in the current directory and its subfolders:
+# search_string "Hello"
+# To search for the string "Hello" in the "myfolder" directory and its subfolders:
+# search_string "Hello" myfolder
+# To search for the string "Hello" only in .txt and .md files:
+# search_string "Hello" --ext txt md
+# To exclude directories named "node_modules" and "build":
+# search_string "Hello" --exclude node_modules build
+tools-search_string() {
+    local query="$1"
+    shift
+    local path="${1:-.}"
+    shift
+    local extensions=()
+    local excludedirs=()
+    
+    while [ "$#" -gt 0 ]; do
+        case "$1" in
+            --ext)
+                shift
+                while [[ "$1" != "--"* && "$#" -gt 0 ]]; do
+                    extensions+=("$1")
+                    shift
+                done
+                ;;
+            --exclude)
+                shift
+                while [[ "$1" != "--"* && "$#" -gt 0 ]]; do
+                    excludedirs+=("-path ./$1 -prune -o")
+                    shift
+                done
+                ;;
+            *)
+                echo "Unknown option: $1"
+                return 1
+                ;;
+        esac
+    done
+
+    local find_cmd="find $path ${excludedirs[@]} -type f"
+    
+    if [ ${#extensions[@]} -gt 0 ]; then
+        local name_conditions=""
+        for ext in "${extensions[@]}"; do
+            if [ -z "$name_conditions" ]; then
+                name_conditions="-name *.$ext"
+            else
+                name_conditions="$name_conditions -o -name *.$ext"
+            fi
+        done
+        find_cmd="$find_cmd \( $name_conditions \)"
+    fi
+    
+    eval "$find_cmd" -exec grep -l "$query" {} +
+}
+
+
 tools-search-String-with-this-FileExtention() {
 	if [ -z "$1" ]; then
 		echo "String is missing!";

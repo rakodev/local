@@ -58,6 +58,12 @@ echo "source ~/local/settings/vimrc" > ~/.vimrc
 git config --global core.excludesfile ~/local/utils/global.gitignore
 ```
 
+### Configure Git to only allow fast-forward pushes by default
+
+```bash
+git config --global push.ff only
+```
+
 ### Enable Global Git Template File (Pre-commit hooks)
 
 ```bash

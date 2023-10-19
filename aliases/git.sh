@@ -11,7 +11,7 @@ alias git-ap='git add --all --intent-to-add && git add --patch && git status'
 alias git-undo-add='git reset --'
 alias git-pap='pre-commit run -a && git add --all --intent-to-add && git add --patch && git status'
 alias git-co='git commit -m'
-alias git-pu='git push -u origin HEAD'
+alias git-pu='git push -u origin +HEAD'
 alias git-main='git stash -u && git clean --force && git reset --hard && git checkout main && git pull'
 alias git-remove-merged-branch-to-main="git fetch && git branch --merged | egrep -v 'main' | xargs git branch -d"
 
@@ -305,10 +305,12 @@ git-undo-to-LastGoodCommit-on-Branchname() {
 ######################################
 
 alias git-stash-list='git stash list'
+alias git-stash-show='git stash show stash@{0} -p'
 
 # example: git-stash
 # example: git-stash "WIP: new lambda function"
 git-stash-push-with-Description() {
+	git add .
 	if [ $1 ]; then
 		git stash push -m "$1"
 	else
