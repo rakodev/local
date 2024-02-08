@@ -7,9 +7,10 @@ alias git-i='git init'
 alias git-c='git checkout'
 alias git-p='git pull --ff-only' # https://blog.sffc.xyz/post/185195398930/why-you-should-use-git-pull-ff-only
 alias git-cb='git checkout -b'
-alias git-ap='git add --all --intent-to-add && git add --patch && git status'
+alias git-ap='git add --all --intent-to-add && git add --patch && git add --all && git status'
+alias git-add-all='git add --all && git status'
 alias git-undo-add='git reset --'
-alias git-pap='pre-commit run -a && git add --all --intent-to-add && git add --patch && git status'
+alias git-pap='pre-commit run -a && git-ap'
 alias git-co='git commit -m'
 alias git-pu='git push -u origin +HEAD'
 alias git-main='git stash -u && git clean --force && git reset --hard && git checkout main && git pull'
@@ -148,33 +149,25 @@ alias git-merge-with-origin-master='git fetch && git merge origin/master'
 
 # Merge last N commits even if they have been pushed
 # git-merge-last-n-commit develop 4
-git-merge-to-Branchname-last-Number-of-commit() {
+git-merge-Number-of-commit() {
+	branch_name=$(git rev-parse --abbrev-ref HEAD)
 	if [ -z "$1" ]; then
-		echo "Parameter branch name is missing";
-		return 0;
-	fi
-	if [ -z "$2" ]; then
 		echo "Number of commit you want to merge is missing";
 		return 0;
 	fi
 	read \?"Choose fixup for other commits than the first one [press enter to continue]"
-	git rebase -i $1~$2 $1
+	git rebase -i $branch_name~$1 $branch_name
 }
 
-# Merge last N commits even if they have been pushed
-# git-merge-last-n-commit develop 4
-git-merge-to-Branchname-last-Number-of-commit-and-push() {
+git-merge-Number-of-commit-and-push() {
+	branch_name=$(git rev-parse --abbrev-ref HEAD)
 	if [ -z "$1" ]; then
-		echo "Parameter branch name is missing";
-		return 0;
-	fi
-	if [ -z "$2" ]; then
 		echo "Number of commit you want to merge is missing";
 		return 0;
 	fi
 	read \?"Choose fixup for other commits than the first one [press enter to continue]"
-	if git rebase -i $1~$2 $1; then
-		git push -u origin +$1
+	if git rebase -i $branch_name~$1 $branch_name; then
+		git push -u origin +$branch_name
 	fi
 }
 
@@ -204,7 +197,8 @@ git-checkout-remote-Branchname() {
 		return 0;
 	fi
 	git fetch;
-	git checkout -t origin/$1;
+	git checkout -B $1 origin/$1;
+	git pull;
 }
 
 ######################################
@@ -304,8 +298,14 @@ git-undo-to-LastGoodCommit-on-Branchname() {
 ################# Stash
 ######################################
 
-alias git-stash-list='git stash list'
-alias git-stash-show='git stash show stash@{0} -p'
+git-stash-list-with-datetime() {
+	git stash list --date=local
+}
+# alias git-stash-show='git stash show stash@{0} -p'
+alias git-stash-show='f() { git stash show stash@{$1} -p; unset -f f; }; f'
+alias git-stash-show-drop='f() { git stash show stash@{$1} -p; echo "Are you sure you want to drop this stash? (y/n) "; read REPLY; if [[ $REPLY =~ ^[Yy]$ ]]; then git stash drop stash@{$1}; fi; unset -f f; }; f'
+alias git-stash-interactive='f() { STASH_NUM=$(git stash list | fzf | cut -d "{" -f 2 | cut -d "}" -f 1); git stash show stash@{$STASH_NUM} -p; echo "Do you want to (d)elete, (p)op or (q)uit this stash? "; read ACTION; if [[ $ACTION =~ ^[Dd]$ ]]; then git stash drop stash@{$STASH_NUM}; elif [[ $ACTION =~ ^[Pp]$ ]]; then git stash pop stash@{$STASH_NUM}; fi; unset -f f; }; f'
+
 
 # example: git-stash
 # example: git-stash "WIP: new lambda function"

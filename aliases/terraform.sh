@@ -1,6 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
-export TF_CLI_CONFIG_FILE="~/local/terraform/.terraformrc"
+# Include the .env file from the parent folder
+if [[ -f $(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/../.env ]]; then
+    source $(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/../.env
+else
+    echo "$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/.env file not found"
+fi
+
+export TF_CLI_CONFIG_FILE="$USER_FOLDER/local/terraform/.terraformrc"
 
 # Initialise a terraform project
 alias tf-init='terraform init'
@@ -13,7 +20,7 @@ alias tf-apply='terraform apply'
 # Destroy the plan
 alias tf-destroy='terraform destroy'
 # Rewrite Terraform configuration files to a canonical format and style
-alias tf-fmt='terraform fmt'
+alias tf-fmt='terraform fmt -recursive'
 # Validate your terraform syntax
 alias tf-validate='terraform validate'
 alias tf-fmt-and-validate='terraform fmt & terraform validate'

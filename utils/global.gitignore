@@ -9,4 +9,6 @@ __pycache__
 # .*
 *.zip
 .temp*
+.tmp*
 .env*
+.DS_Store
