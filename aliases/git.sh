@@ -7,7 +7,7 @@ alias git-i='git init'
 alias git-c='git checkout'
 alias git-p='git pull --ff-only' # https://blog.sffc.xyz/post/185195398930/why-you-should-use-git-pull-ff-only
 alias git-cb='git checkout -b'
-alias git-ap='git add --all --intent-to-add && git add --patch && git add --all && git status'
+alias git-ap='git add --all --intent-to-add && git add --patch && git diff --name-only --diff-filter=ACMRTUXB | xargs git add && git status'
 alias git-add-all='git add --all && git status'
 alias git-undo-add='git reset --'
 alias git-pap='pre-commit run -a && git-ap'
@@ -15,6 +15,7 @@ alias git-co='git commit -m'
 alias git-pu='git push -u origin +HEAD'
 alias git-main='git stash -u && git clean --force && git reset --hard && git checkout main && git pull'
 alias git-remove-merged-branch-to-main="git fetch && git branch --merged | egrep -v 'main' | xargs git branch -d"
+alias git-commit-interactive='f() { COMMIT_HASH=$(git log --oneline -n 20 | fzf | awk "{print \$1}"); echo "Enter new branch name: "; read BRANCH_NAME; git checkout -b $BRANCH_NAME; COMMITS=$(git rev-list --reverse $COMMIT_HASH..HEAD); while IFS= read -r commit; do echo "Reverting commit $commit"; git revert --no-edit -m 1 $commit || break; done <<< "$COMMITS"; echo "Enter target branch to show you the changes (default: main): "; read TARGET_BRANCH; TARGET_BRANCH=${TARGET_BRANCH:-main}; git diff $TARGET_BRANCH..$BRANCH_NAME; echo -e "Created new branch $BRANCH_NAME and reverted commits from now to $COMMIT_HASH (not including). \n Compared changes with $TARGET_BRANCH. \n\n You are now ready to push your branch."; unset -f f; }; f'
 
 ######################################
 ################# Branch
@@ -304,7 +305,7 @@ git-stash-list-with-datetime() {
 # alias git-stash-show='git stash show stash@{0} -p'
 alias git-stash-show='f() { git stash show stash@{$1} -p; unset -f f; }; f'
 alias git-stash-show-drop='f() { git stash show stash@{$1} -p; echo "Are you sure you want to drop this stash? (y/n) "; read REPLY; if [[ $REPLY =~ ^[Yy]$ ]]; then git stash drop stash@{$1}; fi; unset -f f; }; f'
-alias git-stash-interactive='f() { STASH_NUM=$(git stash list | fzf | cut -d "{" -f 2 | cut -d "}" -f 1); git stash show stash@{$STASH_NUM} -p; echo "Do you want to (d)elete, (p)op or (q)uit this stash? "; read ACTION; if [[ $ACTION =~ ^[Dd]$ ]]; then git stash drop stash@{$STASH_NUM}; elif [[ $ACTION =~ ^[Pp]$ ]]; then git stash pop stash@{$STASH_NUM}; fi; unset -f f; }; f'
+alias git-stash-interactive='f() { echo "Do you want to (s)tash current changes or (p)op? "; read ACTION; if [[ $ACTION =~ ^[Ss]$ ]]; then echo "Enter a message for the stash: "; read STASH_MESSAGE; git stash push -m "$STASH_MESSAGE"; echo "Changes stashed. Exiting."; unset -f f; return; fi; STASH_NUM=$(git stash list | fzf | cut -d "{" -f 2 | cut -d "}" -f 1); if [[ -z $STASH_NUM ]]; then echo "No stash selected. Exiting."; unset -f f; return; fi; git stash show stash@{$STASH_NUM} -p; echo "Do you want to (d)elete, (p)op or (q)uit this stash? "; read ACTION; if [[ $ACTION =~ ^[Dd]$ ]]; then git stash drop stash@{$STASH_NUM}; elif [[ $ACTION =~ ^[Pp]$ ]]; then git stash pop stash@{$STASH_NUM}; fi; unset -f f; }; f'
 
 
 # example: git-stash
