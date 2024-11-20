@@ -102,3 +102,11 @@ pyenv install $(pyenv install --list | grep -v - | tail -1)
 pyenv global $(pyenv versions --bare | grep -v - | tail -1)
 
 python -m pip install boto3
+
+# git -c include.path="~/.gitconfig" config user.email
+
+
+# Prints
+echo "Download also the following apps:"
+echo "https://apps.apple.com/us/app/mutekey/id1509590766"
+
