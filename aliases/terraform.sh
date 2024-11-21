@@ -1,13 +1,6 @@
 #!/bin/bash
 
-# Include the .env file from the parent folder
-if [[ -f $(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/../.env ]]; then
-    source $(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/../.env
-else
-    echo "$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/.env file not found"
-fi
-
-export TF_CLI_CONFIG_FILE="$USER_FOLDER/local/terraform/.terraformrc"
+export TF_CLI_CONFIG_FILE="$HOME/local/terraform/.terraformrc"
 
 # Initialise a terraform project
 alias tf-init='terraform init'

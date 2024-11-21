@@ -1,112 +1,76 @@
 #!/bin/bash
 
-# MacOs tools Installation
+# MacOS tools Installation
 
-# Install Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# List of tools to install with Homebrew
+BREW_TOOLS=("nodemon" "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv")
 
-# Add brew to path
-echo -n 'export PATH=/opt/homebrew/bin:$PATH' >> ~/.zshrc
+# Ask for the administrator password upfront
+sudo -v
 
-# Install Oh My Zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# Keep-alive: update existing `sudo` time stamp until the script has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-# Choose zsh as default shell
-chsh -s /bin/zsh
+# Install Homebrew if not already installed
+if ! command -v brew &> /dev/null; then
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
-# Install zsh-autosuggestions
-brew install zsh-autosuggestions
+# Add Homebrew to PATH if not already added
+if ! grep -q '/opt/homebrew/bin' ~/.zshrc; then
+    echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
+fi
 
-# Enable zsh-autosuggestions
-echo "source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+# Install essential tools if not already installed
+for tool in "${BREW_TOOLS[@]}"; do
+    if ! brew list -1 | grep -q "^${tool}\$"; then
+        brew install $tool
+    fi
+done
+
+# Install Oh My Zsh if not already installed
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+# Add pyenv to PATH and initialize it if not already added
+if ! grep -q 'pyenv init' ~/.zshrc; then
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+    echo 'eval "$(pyenv init --path)"' >> ~/.zshrc
+    echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+fi
+
+# Reload zsh configuration
+source ~/.zshrc
+
+# Install the latest Python version with pyenv and set it as global if not already installed
+latest_python=$(pyenv install --list | grep -v - | grep -v b | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+\s*$' | tail -1)
+if ! pyenv versions | grep -q "$latest_python"; then
+    pyenv install -s $latest_python
+    pyenv global $latest_python
+fi
 
 # Remove last login message from terminal
 touch ~/.hushlogin
 
-# Load my aliases
-echo 'for file in ~/local/aliases/*; do' >> ~/.zshrc
-echo '    source "$file"' >> ~/.zshrc
-echo 'done' >> ~/.zshrc
-# Set Vim settings
-echo "source ~/local/settings/vimrc" > ~/.vimrc
+# Load aliases and settings if not already added
+if ! grep -q 'for file in ~/local/aliases/*' ~/.zshrc; then
+    echo 'for file in ~/local/aliases/*; do source "$file"; done' >> ~/.zshrc
+fi
+if ! grep -q 'source ~/local/settings/vimrc' ~/.vimrc; then
+    echo "source ~/local/settings/vimrc" >> ~/.vimrc
+fi
 
 # Enable global gitignore file
 git config --global core.excludesfile ~/local/utils/global.gitignore
 
 # Git pull without creating a merge commit (fast-forward)
 git config --global pull.ff true
-# Configure Git to only allow fast-forward pushes by default
-git config --global push.ff only
 
-# Source zshrc
-source ~/.zshrc
+# Restart zsh to apply changes
+exec zsh
 
-# Install Clipy
-brew install --cask clipy
-
-# Install Visual Studio Code
-brew install --cask visual-studio-code
-
-# Install Docker
-brew install --cask docker
-
-# Install Rectangle
-brew install --cask rectangle
-
-# Install Aws Cli
-brew install awscli
-
-# Install Node
-brew install node
-
-# Install Nodemon globally
-npm install -g nodemon
-
-# Install Tfenv
-brew install tfenv
-
-# Install Jq
-brew install jq
-
-# Install Coreutils
-brew install coreutils
-
-# Install Tmux
-brew install tmux
-
-# Add these lines to ~/.tmux.conf
-echo "set -g mouse on # Enable mouse support for switching panes/windows" >> ~/.tmux.conf
-echo "set -g history-limit 10000 # Set history limit to 10000 lines" >> ~/.tmux.conf
-tmux source-file ~/.tmux.conf
-
-# Install fzf
-brew install fzf
-
-# Install ffmpeg
-brew install ffmpeg
-
-# Install PyEnv
-brew install pyenv
-
-# Add pyenv to path
-echo -n 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.zshrc
-# or try this:
-# printf 'export PYENV_ROOT=/usr/local/opt/pyenv; export PATH="$PYENV_ROOT/bin:$PATH"\n' >> ~/.zshrc
-
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
-echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
-echo 'eval "$(pyenv init -)"' >> ~/.zshrc
-
-# Install latest python with pyenv and set it as global
-pyenv install $(pyenv install --list | grep -v - | tail -1)
-pyenv global $(pyenv versions --bare | grep -v - | tail -1)
-
-python -m pip install boto3
-
-# git -c include.path="~/.gitconfig" config user.email
-
-
-# Prints
-echo "Download also the following apps:"
-echo "https://apps.apple.com/us/app/mutekey/id1509590766"
-
+echo "Initial setup completed successfully!"

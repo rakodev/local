@@ -386,12 +386,12 @@ git-delete-Branch-both-local-and-remote() {
 ######################################
 
 git-ssh-key-copy() {
-    if [[ -e ~/.ssh/id_rsa.pub ]]; then
-        pbcopy < ~/.ssh/id_rsa.pub
-    else
-        echo "You need first to generate a ssh key with this command:";
-        echo "ssh-keygen -t rsa -b 4096 -C ""your_email@example.com"""
+    if [[ ! -e ~/.ssh/id_rsa.pub ]]; then
+		echo "No ssh key found, creating one";
+        ssh-keygen -t rsa -b 4096
     fi
+    pbcopy < ~/.ssh/id_rsa.pub
+	echo "SSH key copied to clipboard"
 }
 
 ######################################
