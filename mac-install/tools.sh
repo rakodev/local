@@ -3,7 +3,7 @@
 # MacOS tools Installation
 
 # List of tools to install with Homebrew
-BREW_TOOLS=("nodemon" "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv")
+BREW_TOOLS=("nodemon" "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv" "terragrunt" "stats" "visual-studio-code" "docker" "awscli")
 
 # Ask for the administrator password upfront
 sudo -v
@@ -43,6 +43,26 @@ if ! grep -q 'pyenv init' ~/.zshrc; then
     echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 fi
 
+# Explanation:
+# 	•	FZF_INSTALL_KEYBINDINGS=1: enables key bindings (like Ctrl+R)
+# 	•	FZF_INSTALL_COMPLETION=1: enables shell completion
+# 	•	FZF_INSTALL_UPDATE_RC=1: updates your .zshrc
+# 	•	--no-bash, --no-fish: skip config for other shells
+# https://github.com/junegunn/fzf?tab=readme-ov-file#setting-up-shell-integration
+export FZF_INSTALL_KEYBINDINGS=1
+export FZF_INSTALL_COMPLETION=1
+export FZF_INSTALL_UPDATE_RC=1
+yes | /opt/homebrew/opt/fzf/install --no-bash --no-fish
+
+
+# # Install zsh-autosuggestions
+# git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+# # Add zsh-autosuggestions to plugins if not already added
+# if ! grep -q 'zsh-autosuggestions' ~/.zshrc; then
+#     sed -i '' 's/plugins=(git)/plugins=(git zsh-autosuggestions)/' ~/.zshrc
+# fi
+
 # Reload zsh configuration
 source ~/.zshrc
 
@@ -69,6 +89,11 @@ git config --global core.excludesfile ~/local/utils/global.gitignore
 
 # Git pull without creating a merge commit (fast-forward)
 git config --global pull.ff true
+
+# Set up git difftool and mergetool to use Visual Studio Code
+git config --global merge.tool vscode
+git config --global mergetool.vscode.cmd "code --wait \$MERGED"
+git config --global mergetool.prompt false
 
 # Restart zsh to apply changes
 exec zsh

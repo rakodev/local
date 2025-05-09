@@ -14,6 +14,7 @@ alias git-pap='pre-commit run -a && git-ap'
 alias git-co='git commit -m'
 alias git-pu='git push -u origin +HEAD'
 alias git-main='git stash -u && git clean --force && git reset --hard && git checkout main && git pull'
+alias git-conflict='git mergetool'
 alias git-remove-merged-branch-to-main="git fetch && git branch --merged | egrep -v 'main' | xargs git branch -d"
 alias git-commit-interactive='f() { COMMIT_HASH=$(git log --oneline -n 20 | fzf | awk "{print \$1}"); echo "Enter new branch name: "; read BRANCH_NAME; git checkout -b $BRANCH_NAME; COMMITS=$(git rev-list --reverse $COMMIT_HASH..HEAD); while IFS= read -r commit; do echo "Reverting commit $commit"; git revert --no-edit -m 1 $commit || break; done <<< "$COMMITS"; echo "Enter target branch to show you the changes (default: main): "; read TARGET_BRANCH; TARGET_BRANCH=${TARGET_BRANCH:-main}; git diff $TARGET_BRANCH..$BRANCH_NAME; echo -e "Created new branch $BRANCH_NAME and reverted commits from now to $COMMIT_HASH (not including). \n Compared changes with $TARGET_BRANCH. \n\n You are now ready to push your branch."; unset -f f; }; f'
 

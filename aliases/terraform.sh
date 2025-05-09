@@ -32,7 +32,7 @@ alias tf-state-find-Searchstring='terraform state list | grep'
 
 # tfenv - https://github.com/tfutils/tfenv
 alias tfenv-list-local='tfenv list'
-alias tfenv-list-remote='tfenv list remote'
+alias tfenv-list-remote='tfenv list-remote'
 alias tfenv-use='tfenv use' # add terraform version
 alias tfenv-uninstall-tf-version="tfenv uninstall" # add terraform version
 alias tfenv-upgrade='git --git-dir=~/.tfenv/.git pull'
