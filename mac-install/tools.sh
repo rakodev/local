@@ -3,7 +3,7 @@
 # MacOS tools Installation
 
 # List of tools to install with Homebrew
-BREW_TOOLS=("nodemon" "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv" "terragrunt" "stats" "visual-studio-code" "docker" "awscli")
+BREW_TOOLS=("nodemon" "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv" "terragrunt" "stats" "visual-studio-code" "docker" "awscli" "pre-commit" "slack" "discord" "imagemagick" "inskape" "openjdk" "ruby" "go")
 
 # Ask for the administrator password upfront
 sudo -v
@@ -41,6 +41,13 @@ if ! grep -q 'pyenv init' ~/.zshrc; then
     echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
     echo 'eval "$(pyenv init --path)"' >> ~/.zshrc
     echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+fi
+
+if ! grep -q '/opt/homebrew/opt/openjdk/bin' ~/.zshrc; then
+    echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc
+fi
+if ! grep -q 'Library/Android/sdk/platform-tools' ~/.zshrc; then
+    echo 'export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools' >> ~/.zshrc
 fi
 
 # Explanation:
