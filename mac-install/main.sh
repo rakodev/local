@@ -3,7 +3,10 @@
 # MacOS tools Installation
 
 # List of tools to install with Homebrew
-BREW_TOOLS=("nodemon" "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv" "terragrunt" "stats" "visual-studio-code" "docker" "awscli" "pre-commit" "slack" "discord" "imagemagick" "inskape" "openjdk" "ruby" "go")
+BREW_TOOLS=("nodemon" "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv" "terragrunt" "stats" "visual-studio-code" "docker" "awscli" "pre-commit" "slack" "discord" "imagemagick" "inskape")
+
+# React Native Development
+BREW_TOOLS+=("openjdk" "ruby" "go" "zulu" "watchman" "react-native-debugger")
 
 # Ask for the administrator password upfront
 sudo -v
@@ -48,6 +51,10 @@ if ! grep -q '/opt/homebrew/opt/openjdk/bin' ~/.zshrc; then
 fi
 if ! grep -q 'Library/Android/sdk/platform-tools' ~/.zshrc; then
     echo 'export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools' >> ~/.zshrc
+fi
+if ! grep -q 'JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home/' ~/.zshrc; then
+    # https://reactnative.dev/docs/set-up-your-environment?platform=android
+    echo 'export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home/' >> ~/.zshrc
 fi
 
 # Explanation:
@@ -104,5 +111,10 @@ git config --global mergetool.prompt false
 
 # Restart zsh to apply changes
 exec zsh
+
+# Save screenshots in ~/Documents/Screenshots by default
+mkdir -p ~/Documents/Screenshots
+defaults write com.apple.screencapture location ~/Documents/Screenshots
+# killall SystemUIServer # Not necessary?
 
 echo "Initial setup completed successfully!"
