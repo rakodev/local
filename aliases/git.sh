@@ -454,3 +454,17 @@ git-remove-Folder-from-git-cache() {
 	fi
 	git rm -r --cached $1
 }
+
+# Alias to check diff of a specific file given as parameter against main
+git-diff-file-against-main() {
+	if [ -z "$1" ]; then
+		echo "File name is missing";
+		return 0;
+	fi
+	git diff main -- $1
+}
+
+# Alias to check all diff against main
+git-diff-all-against-main() {
+	git diff main
+}

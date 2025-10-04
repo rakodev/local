@@ -3,11 +3,15 @@
 # MacOS tools Installation
 
 # List of tools to install with Homebrew
-BREW_TOOLS=("nodemon" "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv" "terragrunt" "stats" "visual-studio-code" "docker" "awscli" "pre-commit" "slack" "discord" "imagemagick" "inskape")
+BREW_TOOLS=("nodemon" "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv" "terragrunt" "stats" "visual-studio-code" "docker" "awscli" "pre-commit" "slack" "discord" "imagemagick" "inskape" "dagger/tap/dagger")
 
 # React Native Development
 BREW_TOOLS+=("openjdk" "ruby" "go" "zulu" "watchman" "react-native-debugger")
 
+# Mac Tools
+BREW_TOOLS+=("rectangle" "warp")
+# Mac Tools (Paid)
+# BREW_TOOLS+=("istat-menus")
 # Ask for the administrator password upfront
 sudo -v
 
