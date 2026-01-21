@@ -25,7 +25,7 @@ FORMULA_TOOLS=(
 
 # List of Homebrew casks (GUI / apps / binaries distributed as bundles)
 CASK_TOOLS=(
-    "visual-studio-code" "docker" "discord" "rectangle" "warp" "react-native-debugger" "zulu" "bitwarden"
+    "visual-studio-code" "docker" "discord" "rectangle" "warp" "react-native-debugger" "zulu" "bitwarden" "claude-code"
 )
 
 # (Optional) Paid apps – uncomment if you own licenses
