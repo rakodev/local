@@ -25,7 +25,12 @@ FORMULA_TOOLS=(
 
 # List of Homebrew casks (GUI / apps / binaries distributed as bundles)
 CASK_TOOLS=(
-    "visual-studio-code" "docker" "discord" "rectangle" "warp" "react-native-debugger" "zulu" "bitwarden" "claude-code"
+    "visual-studio-code" "docker" "discord" "rectangle" "warp" "react-native-debugger" "zulu" "bitwarden" "session-manager-plugin" "claude-code"
+)
+
+# Additional formulae to install for mobile development
+FORMULA_TOOLS+=(
+    "android-platform-tools" "cocoapods"
 )
 
 # (Optional) Paid apps – uncomment if you own licenses
@@ -260,18 +265,13 @@ git config --global merge.tool vscode
 git config --global mergetool.vscode.cmd "code --wait \$MERGED"
 git config --global mergetool.prompt false
 
-# Configure screenshot location (must be before exec zsh)
+# Restart zsh to apply changes
+exec zsh
+
+# Save screenshots in ~/Documents/Screenshots by default
 log MACOS "Configuring screenshot location"
 mkdir -p ~/Documents/Screenshots
-if defaults write com.apple.screencapture location ~/Documents/Screenshots; then
-    ok "Screenshot location set to ~/Documents/Screenshots"
-    # Restart SystemUIServer to apply screenshot location change immediately
-    killall SystemUIServer 2>/dev/null || warn "Could not restart SystemUIServer"
-else
-    warn "Could not set screenshot location"
-fi
+defaults write com.apple.screencapture location ~/Documents/Screenshots >/dev/null || warn "Could not set screenshot location"
+# killall SystemUIServer # Not necessary?
 
 ok "Initial setup completed successfully!"
-
-# Restart zsh to apply changes (must be last - replaces current process)
-exec zsh
