@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 alias which-shell-is-currently-running='ps -o comm= $$'
 alias which-shell-is-my-default='echo $SHELL'
@@ -21,6 +21,14 @@ tools-zip-all-in-current-directory() {
 # https://stackoverflow.com/questions/18204904/fast-way-of-finding-lines-in-one-file-that-are-not-in-another?#answer-53426391
 # $1 new file, $2 previous file
 tools-diff-any-line-missing() {
+	if [ -z "$1" ]; then
+		echo "First file path is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Second file path is missing!";
+		return 0;
+	fi
 	echo "Missing on the file $1"
 	cat $2 $1 $1 | sort | uniq -u
 	echo "------"
@@ -30,6 +38,14 @@ tools-diff-any-line-missing() {
 
 # only a different way to do the previous diff
 tools-diff-any-line-missing-2() {
+	if [ -z "$1" ]; then
+		echo "First file path is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Second file path is missing!";
+		return 0;
+	fi
 	echo "Missing on the file $1"
 	comm -1 -3 <(sort $1) <(sort $2)
 	echo "------"
@@ -124,13 +140,13 @@ tools-search_string() {
 }
 
 
-tools-search-String-with-this-FileExtention() {
+tools-search-String-with-this-FileExtension() {
 	if [ -z "$1" ]; then
 		echo "String is missing!";
 		return 0;
 	fi
 	if [ -z "$2" ]; then
-		echo "File type extention is missing!";
+		echo "File type extension is missing!";
 		return 0;
 	fi
 	# find . -type f -name "*.$2" ! -path "*/.*" -exec grep -H "$1" {} \; | awk -F ':' '{print $1}' | sort | uniq -c | sort -rnk2
@@ -191,7 +207,7 @@ tools-search-in-Folder-this-String-in-this-FileExtention-ExcludeFolder() {
 		echo "Folder to exclude is missing!";
 		return 0;
 	fi
-	grep -r -i -n --include="*.$3" --exclude="*/$4/*" $2 $1
+	grep -r -i -n --include="*.$3" --exclude-dir="$4" $2 $1
 }
 
 # show list of local shells
@@ -202,6 +218,14 @@ alias tools-list-shell='cat /etc/shells'
 tools-csv-beautifier() {
 	# $1 is filepath
 	# $2 is number of column for each row
+	if [ -z "$1" ]; then
+		echo "File path is missing!";
+		return 0;
+	fi
+	if [ -z "$2" ]; then
+		echo "Number of columns is missing!";
+		return 0;
+	fi
 	cat $1  | sed -e 's/,,/, ,/g' | column -s, -t | less -#$2 -N -S
 }
 

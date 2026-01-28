@@ -16,8 +16,8 @@ alias tf-destroy='terraform destroy'
 alias tf-fmt='terraform fmt -recursive'
 # Validate your terraform syntax
 alias tf-validate='terraform validate'
-alias tf-fmt-and-validate='terraform fmt & terraform validate'
-# Chexk for errors, deprecated syntax... https://github.com/terraform-linters/tflint
+alias tf-fmt-and-validate='terraform fmt && terraform validate'
+# Check for errors, deprecated syntax... https://github.com/terraform-linters/tflint
 alias tf-lint='docker run --rm -v $(pwd):/data -t ghcr.io/terraform-linters/tflint'
 # List all workspaces
 alias tf-workspace-list='terraform workspace list'
@@ -38,10 +38,18 @@ alias tfenv-uninstall-tf-version="tfenv uninstall" # add terraform version
 alias tfenv-upgrade='git --git-dir=~/.tfenv/.git pull'
 
 tf-show-Planfile-short() {
+    if [ -z "$1" ]; then
+        echo "Plan file is missing!";
+        return 0;
+    fi
     terraform show $1 -no-color | grep -E '(^.*[#~+-] .*|^[[:punct:]]|Plan)'
 }
 
 tfenv-create-version-file () {
+    if [ -z "$1" ]; then
+        echo "Terraform version is missing!";
+        return 0;
+    fi
     echo $1 > .terraform-version
 }
 
