@@ -5,7 +5,7 @@
 alias docker-list-all-containers='docker ps -a'
 alias docker-stop-all-containers='docker ps -aq | xargs docker stop'
 alias docker-stop-and-remove-all-containers='docker ps -aq | xargs docker stop | xargs docker rm -f'
-alias docker-list-all-images='docker image -a'
+alias docker-list-all-images='docker images -a'
 alias docker-remove-unused-images='docker image prune -af'
 alias docker-remove-unused-images-older-than-a-week='docker image prune -a --force --filter "until=168h"' # Remove all images older than 1 week
 
@@ -53,13 +53,13 @@ dc-restart(){
 docker-clear() {
 #    docker rm $(docker ps -a -f status=exited -f status=created -q)
     docker system prune -a;
-    docker images purge;
+    docker image prune -a;
 }
 
 docker-clean-all() {
-	docker system prune
 	docker container stop $(docker container ls -aq)
 	docker container rm $(docker container ls -aq)
 	docker rmi $(docker images -aq)
-	docker volume prune
+	docker volume prune -f
+	docker system prune -f
 }

@@ -27,7 +27,6 @@ alias git-switch-to-previous-branch='git checkout -'
 alias git-untrack-file='git rm --cached'
 alias git-untrack-folder='git rm -r --cached'
 alias git-list-remote-branches-merged='git branch -r --merged main'
-# alias git-list-remote-branches='echo "----- Merged -----" && git branch -r --merged | grep -v HEAD | sed 's/origin\///' && echo "----- Not Merged -----" && git branch -r --no-merged | grep -v HEAD | sed \'s/origin\///\''
 alias git-delete-local-pushed-branches='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 
 git-Branch-remove() {
@@ -58,7 +57,7 @@ git-log-grep-by-Keyword() {
 		echo "Search string is missing";
 		return 0;
 	fi
-	git log --no-merges --pretty="%as - %h - %an - %s" --grep='$1'
+	git log --no-merges --pretty="%as - %h - %an - %s" --grep="$1"
 }
 
 # Retrieve all commits by message
@@ -67,7 +66,7 @@ git-log-Search() {
 		echo "Search string is missing";
 		return 0;
 	fi
-	git log --all --grep='$1';
+	git log --all --grep="$1";
 }
 
 git-log-with-diff-SinceInDays-for-File() {
@@ -88,7 +87,7 @@ git-log-with-diff-UntilInDays-for-File() {
 		return 0;
 	fi
 	if [ -z "$2" ]; then
-		echo "Filename is missing";
+		echo "Days is missing";
 		return 0;
 	fi
 	git log -p --until="$2 days ago" $1
@@ -148,6 +147,8 @@ git-diff-in-any-sub-folders() {
 ######################################
 alias git-merge-with-origin-main='git fetch && git merge origin/main'
 alias git-merge-with-origin-master='git fetch && git merge origin/master'
+alias git-revert-merge='f() { MERGE_COMMIT=$(git log --oneline --merges | fzf --preview "git show --stat {1}"); if [ -z "$MERGE_COMMIT" ]; then echo "No merge commit selected."; unset -f f; return; fi; COMMIT_HASH=$(echo "$MERGE_COMMIT" | awk "{print \$1}"); echo "Reverting merge commit: $MERGE_COMMIT"; git revert -m 1 $COMMIT_HASH; unset -f f; }; f'
+alias git-reset-merge='f() { echo ""; echo "⚠️  WARNING: DESTRUCTIVE OPERATION ⚠️"; echo "========================================="; echo "This will RESET your branch to before the selected merge commit."; echo ""; echo "What this means:"; echo "  - All commits AFTER the selected merge will be PERMANENTLY DELETED"; echo "  - This REWRITES HISTORY"; echo "  - If already pushed, you will need to FORCE PUSH (git push -f)"; echo "  - Other collaborators will have conflicts if they pulled the changes"; echo ""; echo "Use git-revert-merge instead if you want a safe, non-destructive option."; echo "========================================="; echo ""; echo "Do you understand and want to proceed? (yes/no) "; read CONFIRM; if [ "$CONFIRM" != "yes" ]; then echo "Aborted."; unset -f f; return; fi; MERGE_COMMIT=$(git log --oneline --merges | fzf --preview "git show --stat {1}"); if [ -z "$MERGE_COMMIT" ]; then echo "No merge commit selected."; unset -f f; return; fi; COMMIT_HASH=$(echo "$MERGE_COMMIT" | awk "{print \$1}"); echo ""; echo "You selected: $MERGE_COMMIT"; echo "This will reset to the commit BEFORE this merge."; echo ""; echo "Type the commit hash ($COMMIT_HASH) to confirm: "; read HASH_CONFIRM; if [ "$HASH_CONFIRM" != "$COMMIT_HASH" ]; then echo "Hash mismatch. Aborted."; unset -f f; return; fi; echo "Resetting to before merge commit..."; git reset --hard $COMMIT_HASH^; echo ""; echo "Done. If this was already pushed, run: git push -f"; unset -f f; }; f'
 
 # Merge last N commits even if they have been pushed
 # git-merge-last-n-commit develop 4
@@ -435,26 +436,6 @@ git-config-set-local() {
 }
 
 
-######################################
-################# Git cache
-######################################
-
-git-remove-Filename-from-git-cache() {
-	if [ -z "$1" ]; then
-		echo "Filename is missing";
-		return 0;
-	fi
-	git rm --cached $1
-}
-
-git-remove-Folder-from-git-cache() {
-	if [ -z "$1" ]; then
-		echo "Folder name is missing";
-		return 0;
-	fi
-	git rm -r --cached $1
-}
-
 # Alias to check diff of a specific file given as parameter against main
 git-diff-file-against-main() {
 	if [ -z "$1" ]; then
@@ -462,9 +443,4 @@ git-diff-file-against-main() {
 		return 0;
 	fi
 	git diff main -- $1
-}
-
-# Alias to check all diff against main
-git-diff-all-against-main() {
-	git diff main
 }

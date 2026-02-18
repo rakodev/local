@@ -25,7 +25,7 @@ aws-sso-get-caller-identity() {
 		echo "AWS_PROFILE: ${AWS_PROFILE}"
 	fi
 	aws_account_id=$(aws sts get-caller-identity --query "Account" --output text)
-	if [ -n $aws_account_id ]; then
+	if [ -z "$aws_account_id" ]; then
 		aws sso login
 		aws_account_id=$(aws sts get-caller-identity --query "Account" --output text)
 	fi
@@ -56,9 +56,7 @@ alias aws-sso-login='aws sso login && echo $AWS_PROFILE'
 alias aws-sso-logout='aws sso logout'
 
 ########### Logs ###########
-# Get log groups without rentention time
-alias aws-log-group-list-without-retention-time="aws logs describe-log-groups | jq '[.logGroups[]| {logGroupName:.logGroupName, creationTime:.creationTime|(./1000)|strftime(\"%d-%m-%Y\")}]'"
-# Get log groups without rentention time
+# Get log groups without retention time
 alias aws-log-group-list-without-retention-time="aws logs describe-log-groups | jq '[.logGroups[] | select(has(\"retentionInDays\")|not) | {logGroupName:.logGroupName, creationTime:.creationTime|(./1000)|strftime(\"%d-%m-%Y\")}]'"
 
 ########### Cloudformation ###########
@@ -111,12 +109,12 @@ aws-s3-list-recursive-in-Bucketname() {
 	aws s3 ls s3://$1 --recursive --human-readable --summarize
 }
 
-aws-s3-list-files-filter-by-FileExtentionType() {
+aws-s3-list-files-filter-by-FileExtensionType() {
 	if [ -z "$1" ]; then
 		echo "Please, specify which type of file you want";
 		return 0;
 	fi
-	aws s3 ls --recursive | grep '\.$1$'
+	aws s3 ls --recursive | grep "\.$1$"
 }
 
 aws-s3-copy-From-To() {
@@ -136,5 +134,9 @@ aws-s3-sync-From-To() {
 		echo "s3 bucket name and/or folder is missing!";
 		return 0;
 	fi
-	aws s3 sync s3://$1 $2 
+	if [ -z "$2" ]; then
+		echo "Local path is missing!";
+		return 0;
+	fi
+	aws s3 sync s3://$1 $2
 }
