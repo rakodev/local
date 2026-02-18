@@ -206,7 +206,7 @@ tools-csv-beautifier() {
 }
 
 # Run claude with Bedrock configuration and dangerous permissions skipped
-alias claude='CLAUDE_CODE_USE_BEDROCK=1 AWS_DEFAULT_REGION=eu-central-1 ANTHROPIC_MODEL="eu.anthropic.claude-opus-4-5-20251101-v1:0" ANTHROPIC_SMALL_FAST_MODEL="global.anthropic.claude-sonnet-4-5-20250929-v1:0" claude --dangerously-skip-permissions'
+alias claude='CLAUDE_CODE_USE_BEDROCK=1 AWS_DEFAULT_REGION=eu-central-1 ANTHROPIC_MODEL="eu.anthropic.claude-opus-4-6-v1" ANTHROPIC_SMALL_FAST_MODEL="global.anthropic.claude-sonnet-4-5-20250929-v1:0" claude --dangerously-skip-permissions'
 
 # https://unix.stackexchange.com/questions/548892/how-to-json-escape-input
 tools-json-encode-Filename-content() {
