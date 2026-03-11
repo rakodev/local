@@ -20,7 +20,7 @@ skip(){ printf "%b[SKIP]%b %s%b\n" "$DIM" "$RESET" "$1" "$RESET"; }
 # List of Homebrew formulae (CLI / libraries)
 FORMULA_TOOLS=(
     "tfenv" "jq" "coreutils" "fzf" "ffmpeg" "pyenv" "awscli" "pre-commit" "imagemagick" 
-    "openjdk" "ruby" "go" "watchman" "node"
+    "openjdk" "ruby" "go" "watchman" "node" "ripgrep"
 )
 
 # List of Homebrew casks (GUI / apps / binaries distributed as bundles)
