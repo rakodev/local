@@ -238,6 +238,8 @@ function claude {
   command claude --dangerously-skip-permissions "$@"
 }
 
+# alias opencode='OPENAI_BASE_URL=http://localhost:11434/v1 OPENAI_API_KEY=ollama opencode'
+
 # https://unix.stackexchange.com/questions/548892/how-to-json-escape-input
 tools-json-encode-Filename-content() {
 	if [ -z "$1" ]; then
