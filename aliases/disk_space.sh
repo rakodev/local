@@ -27,22 +27,31 @@ ds_disk_space() {
 # alias largest_files='find ~/Library -type f -exec du -h {} + 2>/dev/null | sort -h -r | head -n 10'
 
 ds_largest_dirs_recursive() {
+    if [ -n "${ZSH_VERSION:-}" ]; then
+        setopt localoptions nomonitor
+    fi
+
     local path="."
     local use_cache=1
     local ttl=300
+    local use_approx=1
+    local approx_depth=2
+    local force_exact_once=0
     local tmp i size dir human selected_line selected_size selected_dir parent choice
     local cache_dir cache_key cache_file now cache_mtime cache_age used_cached
-    local lock_file refresh_started
+    local lock_file refresh_started quick_used
 
     # Usage:
-    #   ds_largest_dirs_recursive [path] [--fresh] [--ttl SECONDS]
+    #   ds_largest_dirs_recursive [path] [--fresh] [--ttl SECONDS] [--no-approx] [--approx-depth N]
     # Examples:
     #   ds_largest_dirs_recursive ~/Library
     #   ds_largest_dirs_recursive /System/Volumes/Data --fresh
     #   ds_largest_dirs_recursive ~/work --ttl 300
+    #   ds_largest_dirs_recursive ~/work --approx-depth 1
     # Notes:
     #   - default mode is fast: reuses cache immediately
     #   - if cache is older than --ttl, it is refreshed in background
+    #   - if no cache exists, a quick approximate scan is shown first
     #   - --fresh forces a live (synchronous) scan
     while [ $# -gt 0 ]; do
         case "$1" in
@@ -51,6 +60,17 @@ ds_largest_dirs_recursive() {
                 ;;
             --cached)
                 use_cache=1
+                ;;
+            --no-approx)
+                use_approx=0
+                ;;
+            --approx-depth)
+                shift
+                approx_depth="${1:-}"
+                if ! printf "%s" "$approx_depth" | /usr/bin/grep -Eq '^[0-9]+$'; then
+                    echo "Invalid --approx-depth value (must be a non-negative integer)" >&2
+                    return 1
+                fi
                 ;;
             --ttl)
                 shift
@@ -61,7 +81,7 @@ ds_largest_dirs_recursive() {
                 fi
                 ;;
             --help|-h)
-                echo "Usage: ds_largest_dirs_recursive [path] [--fresh] [--ttl SECONDS]"
+                echo "Usage: ds_largest_dirs_recursive [path] [--fresh] [--ttl SECONDS] [--no-approx] [--approx-depth N]"
                 return 0
                 ;;
             *)
@@ -106,6 +126,23 @@ ds_largest_dirs_recursive() {
             /usr/bin/sort -nr
     }
 
+    # fast approximate scanner: only looks at shallow file depth in each child directory
+    # output format matches scan_dirs_once: "<size_kb>\t<dir>"
+    scan_dirs_quick() {
+        local base="$1"
+        local depth="$2"
+        local child kb
+
+        /usr/bin/find "$base" -xdev -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/null | \
+        while IFS= read -r -d '' child; do
+            kb=$(
+                /usr/bin/find "$child" -xdev -type f -maxdepth "$depth" -exec /usr/bin/stat -f %z {} + 2>/dev/null | \
+                /usr/bin/awk '{s+=$1} END{if (s>0) print int((s+1023)/1024); else print 0}'
+            )
+            printf "%s\t%s\n" "${kb:-0}" "$child"
+        done | /usr/bin/sort -nr
+    }
+
     while true; do
         echo
         echo "Top 10 directories by size in: $path"
@@ -117,6 +154,8 @@ ds_largest_dirs_recursive() {
         cache_age=""
         used_cached=0
         refresh_started=0
+        quick_used=0
+
         if [ "$use_cache" -eq 1 ]; then
             cache_key="$(/sbin/md5 -qs "$path" 2>/dev/null || printf "%s" "$path" | /usr/bin/shasum | /usr/bin/awk '{print $1}')"
             cache_file="$cache_dir/$cache_key.txt"
@@ -140,14 +179,52 @@ ds_largest_dirs_recursive() {
                         trap '/bin/rm -f "$lock_file" "$cache_file.tmp"' EXIT
                         scan_dirs_once "$path" > "$cache_file.tmp" && [ -s "$cache_file.tmp" ] && /bin/mv "$cache_file.tmp" "$cache_file"
                     ) >/dev/null 2>&1 &
+                    disown "$!" 2>/dev/null || true
                     refresh_started=1
                 fi
             fi
         fi
 
-        if [ ! -s "$tmp" ]; then
-            # no cache available (or --fresh): run a live scan
+        if [ "$force_exact_once" -eq 1 ]; then
             scan_dirs_once "$path" > "$tmp"
+
+            if [ ! -s "$tmp" ]; then
+                /usr/bin/find "$path" -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null | \
+                    /usr/bin/xargs -0 /usr/bin/du -skx 2>/dev/null | /usr/bin/sort -nr > "$tmp"
+            fi
+
+            if [ "$use_cache" -eq 1 ] && [ -s "$tmp" ]; then
+                /bin/cp "$tmp" "$cache_file" 2>/dev/null || true
+                cache_age=0
+            fi
+
+            force_exact_once=0
+        fi
+
+        if [ ! -s "$tmp" ]; then
+            # no cache available: optionally show quick approximation first
+            if [ "$use_cache" -eq 1 ] && [ "$use_approx" -eq 1 ]; then
+                scan_dirs_quick "$path" "$approx_depth" > "$tmp"
+                if [ -s "$tmp" ]; then
+                    quick_used=1
+
+                    # refresh exact cache asynchronously for next use
+                    if [ ! -e "$lock_file" ]; then
+                        : > "$lock_file" 2>/dev/null || true
+                        (
+                            trap '/bin/rm -f "$lock_file" "$cache_file.tmp"' EXIT
+                            scan_dirs_once "$path" > "$cache_file.tmp" && [ -s "$cache_file.tmp" ] && /bin/mv "$cache_file.tmp" "$cache_file"
+                        ) >/dev/null 2>&1 &
+                        disown "$!" 2>/dev/null || true
+                        refresh_started=1
+                    fi
+                fi
+            fi
+
+            # no approximation available (or --fresh): run a live exact scan
+            if [ ! -s "$tmp" ]; then
+                scan_dirs_once "$path" > "$tmp"
+            fi
 
             # fallback for macOS protected/system paths where depth scan can be sparse
             if [ ! -s "$tmp" ]; then
@@ -155,7 +232,7 @@ ds_largest_dirs_recursive() {
                     /usr/bin/xargs -0 /usr/bin/du -skx 2>/dev/null | /usr/bin/sort -nr > "$tmp"
             fi
 
-            if [ "$use_cache" -eq 1 ] && [ -s "$tmp" ]; then
+            if [ "$use_cache" -eq 1 ] && [ "$quick_used" -eq 0 ] && [ -s "$tmp" ]; then
                 /bin/cp "$tmp" "$cache_file" 2>/dev/null || true
                 cache_age=0
             fi
@@ -178,6 +255,14 @@ ds_largest_dirs_recursive() {
             fi
         fi
 
+        if [ "$quick_used" -eq 1 ]; then
+            if [ "$refresh_started" -eq 1 ]; then
+                echo "(quick estimate: depth=${approx_depth}; exact scan refreshing in background; use --fresh for live scan)"
+            else
+                echo "(quick estimate: depth=${approx_depth}; exact scan already refreshing; use --fresh for live scan)"
+            fi
+        fi
+
         # print top 10 with numbers and human sizes
         i=1
         while IFS=$'\t' read -r size dir; do
@@ -188,12 +273,17 @@ ds_largest_dirs_recursive() {
         done < <(/usr/bin/head -n 10 "$tmp")
 
         echo "------------------------------------------------------------"
-        printf "Enter number to drill into, '..' to go up, or 'q' to quit: "
+        printf "Enter number to drill into, 'r' to rescan exact, '..' to go up, or 'q' to quit: "
         read -r choice
 
         case "$choice" in
             q|Q)
                 break
+                ;;
+            r|R)
+                echo "Rescanning current path with exact data..."
+                force_exact_once=1
+                continue
                 ;;
             ..)
                 parent="$(cd "$path/.." 2>/dev/null && pwd || printf "%s" "$path")"
