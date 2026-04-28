@@ -233,7 +233,10 @@ tools-csv-beautifier() {
 CLAUDE_REGION_PREFIX="eu"
 function claude {
   CLAUDE_CODE_USE_BEDROCK=1 \
-  ANTHROPIC_MODEL="${CLAUDE_REGION_PREFIX:+${CLAUDE_REGION_PREFIX}.}anthropic.claude-opus-4-6-v1" \
+#   CLAUDE_CODE_USE_MANTLE=1 \
+#   AWS_REGION=us-east-1 \
+#   ANTHROPIC_MODEL="${CLAUDE_REGION_PREFIX:+${CLAUDE_REGION_PREFIX}.}anthropic.claude-opus-4-6-v1" \
+  ANTHROPIC_MODEL="global.anthropic.claude-opus-4-7[1m]" \
   ANTHROPIC_SMALL_FAST_MODEL="${CLAUDE_REGION_PREFIX:+${CLAUDE_REGION_PREFIX}.}anthropic.claude-sonnet-4-6" \
   command claude --dangerously-skip-permissions "$@"
 }
