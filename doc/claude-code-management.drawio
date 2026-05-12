@@ -1,0 +1,150 @@
+<mxfile host="app.diagrams.net" modified="2026-04-30T00:00:00.000Z" agent="Claude" version="24.0.0">
+  <diagram name="Claude Code Management" id="claude-mgmt">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1450" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1900" height="1450" as="geometry" />
+        </mxCell>
+
+        <mxCell id="title" value="How Claude Code is Managed" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=28;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="650" y="20" width="600" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Configuration scopes, skills, agents, hooks, MCP servers &amp; more" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=2;fontColor=#555555" vertex="1" parent="1">
+          <mxGeometry x="650" y="60" width="600" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cc_core" value="Claude Code CLI&#10;(runs in terminal / IDE)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=#0b47a1;fontColor=#ffffff;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="820" y="110" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="scope_header" value="⚙️  Configuration Scopes (merged at runtime — more local wins)" style="text;html=1;strokeColor=none;fillColor=#fff3cd;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="220" width="1740" height="36" as="geometry" />
+        </mxCell>
+
+        <mxCell id="user_scope" value="👤 USER (Global)&#10;~/.claude/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#155724;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="280" width="420" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="user_items" value="• settings.json — model, theme, env, permissions&#10;• CLAUDE.md — global user instructions&#10;• agents/ — personal subagents (*.md)&#10;• skills/ — personal skills (skill.md)&#10;• commands/ — personal slash commands&#10;• keybindings.json — keyboard shortcuts&#10;• projects/&lt;project&gt;/memory/ — auto-memory&#10;&#10;Applies everywhere you run Claude Code." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;spacingLeft=12;spacingTop=8" vertex="1" parent="1">
+          <mxGeometry x="110" y="320" width="400" height="310" as="geometry" />
+        </mxCell>
+
+        <mxCell id="proj_scope" value="📁 PROJECT (Shared via git)&#10;&lt;repo&gt;/.claude/ + CLAUDE.md" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#004085;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="560" y="280" width="420" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="proj_items" value="• .claude/settings.json — committed team config&#10;• CLAUDE.md — repo-wide instructions&#10;• .claude/agents/ — project subagents&#10;• .claude/skills/ — project skills&#10;• .claude/commands/ — project slash commands&#10;• .mcp.json — shared MCP server config&#10;&#10;Checked in to git — shared with the team." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;spacingLeft=12;spacingTop=8" vertex="1" parent="1">
+          <mxGeometry x="570" y="320" width="400" height="310" as="geometry" />
+        </mxCell>
+
+        <mxCell id="local_scope" value="🔒 LOCAL (Per-project, not shared)&#10;&lt;repo&gt;/.claude/settings.local.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8d7da;strokeColor=#721c24;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="1020" y="280" width="380" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="local_items" value="• settings.local.json — personal overrides&#10;   for this repo only&#10;• Git-ignored by default&#10;• Use for: personal allowlists,&#10;   local env vars, secrets&#10;&#10;Overrides project &amp; user settings&#10;but stays on your machine." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;spacingLeft=12;spacingTop=8" vertex="1" parent="1">
+          <mxGeometry x="1030" y="320" width="360" height="310" as="geometry" />
+        </mxCell>
+
+        <mxCell id="enterprise_scope" value="🏢 ENTERPRISE (Admin-enforced)&#10;/Library/Application Support/ClaudeCode/ (mac)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2d9f3;strokeColor=#4a148c;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="1440" y="280" width="380" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="enterprise_items" value="• managed-settings.json&#10;• Deployed by IT/admin via MDM&#10;• Highest precedence — cannot be&#10;   overridden by users&#10;• Typical use: allowed models,&#10;   banned tools, required hooks&#10;&#10;Optional — only if your org uses it." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;spacingLeft=12;spacingTop=8" vertex="1" parent="1">
+          <mxGeometry x="1450" y="320" width="360" height="310" as="geometry" />
+        </mxCell>
+
+        <mxCell id="precedence" value="Precedence (highest → lowest):  🏢 Enterprise  ▸  🔒 Local  ▸  📁 Project  ▸  👤 User" style="text;html=1;strokeColor=#856404;fillColor=#fff3cd;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="655" width="1300" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ext_header" value="🧩  Extensibility — each can live at USER or PROJECT scope" style="text;html=1;strokeColor=none;fillColor=#e8f5e9;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="710" width="1740" height="36" as="geometry" />
+        </mxCell>
+
+        <mxCell id="skills_box" value="💡 Skills" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f57f17;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="770" width="330" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="skills_text" value="Folder with SKILL.md + scripts/assets.&#10;&#10;Claude loads it on demand when the&#10;task matches the skill description.&#10;&#10;Locations:&#10;• ~/.claude/skills/&#10;• &lt;repo&gt;/.claude/skills/&#10;• plugin-provided&#10;&#10;Examples: review, security-review,&#10;claude-api, init, simplify" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=12;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="110" y="805" width="310" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="agents_box" value="🤖 Subagents" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#4a148c;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="450" y="770" width="330" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="agents_text" value="Single *.md file with YAML frontmatter&#10;(name, description, tools, model).&#10;&#10;Specialized helpers Claude can spawn&#10;with the Agent tool — isolated context.&#10;&#10;Locations:&#10;• ~/.claude/agents/&#10;• &lt;repo&gt;/.claude/agents/&#10;&#10;Examples: Explore, Plan,&#10;general-purpose, code-reviewer" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=12;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="460" y="805" width="310" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cmds_box" value="⌨️ Slash Commands" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b3e5fc;strokeColor=#01579b;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="800" y="770" width="330" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="cmds_text" value="Markdown templates for repeatable&#10;prompts — invoked with /name.&#10;&#10;Can take $ARGUMENTS and run shell&#10;snippets before the prompt is sent.&#10;&#10;Locations:&#10;• ~/.claude/commands/&#10;• &lt;repo&gt;/.claude/commands/&#10;&#10;Examples: /review, /init,&#10;/security-review, /loop" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=12;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="810" y="805" width="310" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hooks_box" value="🪝 Hooks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffccbc;strokeColor=#bf360c;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="1150" y="770" width="330" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="hooks_text" value="Shell commands the HARNESS runs&#10;(not Claude) on lifecycle events.&#10;&#10;Configured in settings.json under&#10;&quot;hooks&quot;: { PreToolUse, PostToolUse,&#10;UserPromptSubmit, Stop, ... }&#10;&#10;Use for: auto-format on edit, block&#10;dangerous commands, notifications,&#10;audit logs, custom validation.&#10;&#10;Scoped per settings file location." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=12;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="1160" y="805" width="310" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mcp_box" value="🔌 MCP Servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="1500" y="770" width="320" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="mcp_text" value="External tool servers (Model Context&#10;Protocol). Expose tools, resources,&#10;prompts to Claude.&#10;&#10;Configured in:&#10;• &lt;repo&gt;/.mcp.json (team)&#10;• user settings (personal)&#10;&#10;Examples: GitHub, Linear, Slack,&#10;Jira, Sentry, Postgres, Playwright,&#10;internal company tools." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=12;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="1510" y="805" width="300" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctx_header" value="📚  Context &amp; Behavior — what Claude reads on every turn" style="text;html=1;strokeColor=none;fillColor=#e3f2fd;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="1070" width="1740" height="36" as="geometry" />
+        </mxCell>
+
+        <mxCell id="claudemd_box" value="📝 CLAUDE.md" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#6a1b9a;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="1130" width="420" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="claudemd_text" value="Project instructions auto-loaded into&#10;Claude's context on every turn.&#10;&#10;Levels (all merged):&#10;• ~/.claude/CLAUDE.md — user global&#10;• &lt;repo&gt;/CLAUDE.md — shared/team&#10;• &lt;repo&gt;/CLAUDE.local.md — personal&#10;• Subfolder CLAUDE.md — scoped rules&#10;&#10;Use for coding conventions, architecture&#10;notes, &quot;do / don't&quot; rules." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=12;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="110" y="1165" width="400" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="memory_box" value="🧠 Auto-Memory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe0b2;strokeColor=#e65100;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="540" y="1130" width="420" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="memory_text" value="Claude's own persistent notes&#10;across sessions for the project.&#10;&#10;Location:&#10;~/.claude/projects/&lt;project&gt;/memory/&#10;&#10;• MEMORY.md — the index&#10;• individual *.md files per memory&#10;&#10;Types: user, feedback, project, reference.&#10;Auto-written as you collaborate." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=12;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="550" y="1165" width="400" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="perms_box" value="🔐 Permissions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#b71c1c;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="980" y="1130" width="420" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="perms_text" value="Controls which tools Claude can run&#10;without asking.&#10;&#10;In settings.json:&#10;  &quot;permissions&quot;: {&#10;    &quot;allow&quot;: [&quot;Bash(npm test:*)&quot;],&#10;    &quot;deny&quot;: [&quot;Bash(rm -rf:*)&quot;],&#10;    &quot;ask&quot;: [&quot;Write&quot;]&#10;  }&#10;&#10;Defined at any scope. Enterprise deny&#10;always wins. /permissions to manage." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=12;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="990" y="1165" width="400" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="plugins_box" value="📦 Plugins" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1c4e9;strokeColor=#311b92;fontSize=14;fontStyle=1;verticalAlign=top;align=center" vertex="1" parent="1">
+          <mxGeometry x="1420" y="1130" width="400" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="plugins_text" value="Distributable bundles that package&#10;skills + agents + commands + hooks&#10;+ MCP servers together.&#10;&#10;Installed from a marketplace or git&#10;URL. Enable/disable with /plugin.&#10;&#10;Use when: sharing a ready-made&#10;workflow with a team or publishing&#10;reusable tooling." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;spacingLeft=12;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="1430" y="1165" width="380" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge1" style="endArrow=classic;html=1;rounded=0;strokeColor=#666666;strokeWidth=1.5;endFill=1" edge="1" parent="1" source="cc_core" target="user_scope">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" style="endArrow=classic;html=1;rounded=0;strokeColor=#666666;strokeWidth=1.5;endFill=1" edge="1" parent="1" source="cc_core" target="proj_scope">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" style="endArrow=classic;html=1;rounded=0;strokeColor=#666666;strokeWidth=1.5;endFill=1" edge="1" parent="1" source="cc_core" target="local_scope">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" style="endArrow=classic;html=1;rounded=0;strokeColor=#666666;strokeWidth=1.5;endFill=1" edge="1" parent="1" source="cc_core" target="enterprise_scope">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="tip" value="💡 Demo tip: run /config, /permissions, /agents, /plugin, /mcp in session to show the live state. Files above are plain markdown/JSON — open them in the IDE to inspect or edit." style="text;html=1;strokeColor=#0d47a1;fillColor=#e3f2fd;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=12;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="100" y="1380" width="1720" height="36" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

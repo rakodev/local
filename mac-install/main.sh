@@ -133,9 +133,14 @@ fi
 # Add pyenv to PATH and initialize it if not already added
 if ! grep -q 'pyenv init' ~/.zshrc; then
     log PYENV "Configuring pyenv in ~/.zshrc"
+    # echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+    # echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+    # echo 'eval "$(pyenv init --path)"' >> ~/.zshrc
+    # echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+    
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
     echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
-    echo 'eval "$(pyenv init --path)"' >> ~/.zshrc
+    echo 'export PYENV_DISABLE_REHASH=1' >> ~/.zshrc
     echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 else
     skip "pyenv init already present in ~/.zshrc"
