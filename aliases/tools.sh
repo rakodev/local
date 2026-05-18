@@ -229,14 +229,20 @@ tools-csv-beautifier() {
 	cat $1  | sed -e 's/,,/, ,/g' | column -s, -t | less -#$2 -N -S
 }
 
+function claude {
+  if [[ "$1" != "auth" ]]; then
+    if ! command claude auth status 2>/dev/null | grep -q '"loggedIn": true'; then
+      command claude auth login || return 1
+    fi
+  fi
+  command claude --model "claude-sonnet-4-6" --dangerously-skip-permissions "$@"
+}
 # Run claude with Bedrock configuration and dangerous permissions skipped
 CLAUDE_REGION_PREFIX="eu"
-function claude {
+function claude-bedrock {
   CLAUDE_CODE_USE_BEDROCK=1 \
-#   CLAUDE_CODE_USE_MANTLE=1 \
-#   AWS_REGION=us-east-1 \
-#   ANTHROPIC_MODEL="${CLAUDE_REGION_PREFIX:+${CLAUDE_REGION_PREFIX}.}anthropic.claude-opus-4-6-v1" \
-  ANTHROPIC_MODEL="global.anthropic.claude-opus-4-7[1m]" \
+#   ANTHROPIC_MODEL="global.anthropic.claude-opus-4-7[1m]" \
+  ANTHROPIC_MODEL="${CLAUDE_REGION_PREFIX:+${CLAUDE_REGION_PREFIX}.}anthropic.claude-sonnet-4-6" \
   ANTHROPIC_SMALL_FAST_MODEL="${CLAUDE_REGION_PREFIX:+${CLAUDE_REGION_PREFIX}.}anthropic.claude-sonnet-4-6" \
   command claude --dangerously-skip-permissions "$@"
 }
@@ -250,6 +256,12 @@ tools-json-encode-Filename-content() {
 		return 0;
 	fi
 	jq -R -s '.' < $1
+}
+
+# tools-upgrade-claude-code: removes the npm install dir and reinstalls the latest version
+tools-upgrade-claude-code() {
+	rm -rf /opt/homebrew/lib/node_modules/@anthropic-ai/claude-code
+	npm install -g @anthropic-ai/claude-code
 }
 
 # give json as parameter inside single quotes
