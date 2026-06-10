@@ -258,10 +258,9 @@ tools-json-encode-Filename-content() {
 	jq -R -s '.' < $1
 }
 
-# tools-upgrade-claude-code: removes the npm install dir and reinstalls the latest version
+# tools-upgrade-claude-code: upgrades claude-code in the Homebrew npm prefix
 tools-upgrade-claude-code() {
-	rm -rf /opt/homebrew/lib/node_modules/@anthropic-ai/claude-code
-	npm install -g @anthropic-ai/claude-code
+	npm install -g --prefix /opt/homebrew @anthropic-ai/claude-code@latest
 }
 
 # give json as parameter inside single quotes
