@@ -235,7 +235,7 @@ function claude {
       command claude auth login || return 1
     fi
   fi
-  command claude --model "claude-sonnet-4-6" --dangerously-skip-permissions "$@"
+  command claude --model "claude-opus-4-8" --dangerously-skip-permissions "$@"
 }
 # Run claude with Bedrock configuration and dangerous permissions skipped
 CLAUDE_REGION_PREFIX="eu"
